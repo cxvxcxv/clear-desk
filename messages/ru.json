@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "dashboard": "Панель",
+    "widgets": "Виджеты",
+    "settings": "Настройки"
+  },
+
+  "header": {
+    "title": "Clear Desk"
+  },
+
+  "errors": {
+    "notFoundTitle": "Страница не найдена",
+    "notFoundDescription": "Страница, которую вы ищете, не существует."
+  }
+}
