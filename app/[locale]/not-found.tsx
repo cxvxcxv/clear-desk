@@ -1,12 +1,13 @@
 import { getTranslations } from 'next-intl/server';
 
 export default async function NotFound() {
-  const t = await getTranslations('errors');
+  const t = await getTranslations('errors.notFound');
 
+  // todo: customize the not found page
   return (
-    <div className="p-10">
-      <h1 className="text-2xl font-bold">{t('notFoundTitle')}</h1>
-      <p className="mt-4">{t('notFoundDescription')}</p>
+    <div>
+      <h1 className="text-2xl font-bold">{t('title')}</h1>
+      <p className="mt-4">{t('description')}</p>
     </div>
   );
 }

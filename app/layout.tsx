@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { getLocale } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
 import { Poppins } from 'next/font/google';
 import { ReactNode } from 'react';
@@ -20,8 +21,10 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
+  const locale = await getLocale();
+
   return (
-    <html suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
