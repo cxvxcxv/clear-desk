@@ -7,8 +7,8 @@
   },
 
   "aria": {
-    "openMenu": "Open navigation menu",
-    "closeMenu": "Close navigation menu"
+    "openSidebar": "Open navigation menu",
+    "closeSidebar": "Close navigation menu"
   },
 
   "errors": {

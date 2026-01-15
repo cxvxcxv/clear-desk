@@ -15,7 +15,7 @@ export const Header = ({ isSidebarOpen, onToggleSidebar }: THeaderProps) => {
     <header className="sticky top-0 z-30 flex h-16 items-center justify-between px-4">
       <div className="flex gap-4">
         <button
-          aria-label={isSidebarOpen ? t('closeMenu') : t('openMenu')}
+          aria-label={isSidebarOpen ? t('closeSidebar') : t('openSidebar')}
           aria-expanded={isSidebarOpen}
           aria-controls="app-sidebar"
           className="md:hidden"
