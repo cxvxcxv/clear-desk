@@ -1,12 +1,14 @@
 {
-  "nav": {
+  "navigation": {
+    "title": "Primary navigation",
     "dashboard": "Dashboard",
     "widgets": "Widgets",
     "settings": "Settings"
   },
 
-  "header": {
-    "title": "Clear Desk"
+  "aria": {
+    "openMenu": "Open navigation menu",
+    "closeMenu": "Close navigation menu"
   },
 
   "errors": {

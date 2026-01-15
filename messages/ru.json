@@ -1,12 +1,14 @@
 {
-  "nav": {
+  "navigation": {
+    "title": "Основная навигация",
     "dashboard": "Панель",
     "widgets": "Виджеты",
     "settings": "Настройки"
   },
 
-  "header": {
-    "title": "Clear Desk"
+  "aria": {
+    "openMenu": "Открыть меню навигации",
+    "closeMenu": "Закрыть меню навигации"
   },
 
   "errors": {
