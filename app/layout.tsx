@@ -12,8 +12,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'ClearDesk',
-  description: 'A minimalistic workspace for focused work',
+  applicationName: 'ClearDesk',
 };
 
 export default async function RootLayout({
@@ -26,7 +25,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${poppins.className} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="system">
           {children}
         </ThemeProvider>
       </body>
