@@ -3,6 +3,8 @@
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { ThemeSwitcher } from '@/features/theme-switcher';
+
 type THeaderProps = {
   isSidebarOpen: boolean;
   onToggleSidebar: () => void;
@@ -26,7 +28,7 @@ export const Header = ({ isSidebarOpen, onToggleSidebar }: THeaderProps) => {
         <h1 className="font-bold">ClearDesk</h1>
       </div>
       <div>
-        <button>theme</button>
+        <ThemeSwitcher />
         <button>locale</button>
       </div>
     </header>

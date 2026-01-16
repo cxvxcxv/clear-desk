@@ -1,9 +1,19 @@
 {
+  "app": {
+    "name": "ClearDesk",
+    "description": "A minimal workspace for focused work."
+  },
+
   "navigation": {
     "title": "Primary navigation",
     "dashboard": "Dashboard",
     "widgets": "Widgets",
     "settings": "Settings"
+  },
+
+  "theme": {
+    "light": "light",
+    "dark": "dark"
   },
 
   "aria": {

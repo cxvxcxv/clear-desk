@@ -14,7 +14,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
         isSidebarOpen={isSidebarOpen}
         onSidebarClose={() => setIsSidebarOpen(false)}
       />
-      <div className="md:ml-sidebar-width">
+      <div className="md:ml-sidebar-width flex flex-1 flex-col">
         <Header
           isSidebarOpen={isSidebarOpen}
           onToggleSidebar={() => setIsSidebarOpen(prev => !prev)}
