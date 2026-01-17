@@ -1,5 +1,36 @@
 @import 'tailwindcss';
 
+:root {
+  --color-background: oklch(1 0 0);
+  --color-foreground: oklch(0.13 0 262);
+  --color-card: oklch(0.95 0 264);
+  --color-border: oklch(0.91 0 262);
+  --color-muted: oklch(0.43 0.02 261);
+  --color-primary: oklch(0.57 0.27 257);
+}
+
+.dark {
+  --color-background: oklch(0.13 0 262);
+  --color-foreground: oklch(1 0 0);
+  --color-card: oklch(0.2 0.01 262);
+  --color-border: oklch(0.3 0 262);
+  --color-muted: oklch(0.55 0.02 261);
+  --color-primary: oklch(0.52 0.25 257);
+}
+
 @theme {
-  --spacing-sidebar-width: 16rem;
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--color-card);
+  --color-border: var(--color-border);
+  --color-muted: var(--color-muted);
+  --color-primary: var(--color-primary);
+
+  --spacing-sidebar-width: theme('spacing.64');
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
 }
