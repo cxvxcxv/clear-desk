@@ -27,6 +27,7 @@
   --color-primary: var(--color-primary);
 
   --spacing-sidebar-width: theme('spacing.64');
+  --spacing-header-height: theme('spacing.16');
 }
 
 @layer base {
