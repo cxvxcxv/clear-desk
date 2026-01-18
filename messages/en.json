@@ -19,7 +19,8 @@
   "aria": {
     "openSidebar": "Open navigation menu",
     "closeSidebar": "Close navigation menu",
-    "switchTheme": "Switch to {theme} theme"
+    "switchTheme": "Switch to {theme} theme",
+    "languageSwitcher": "Language switcher"
   },
 
   "errors": {

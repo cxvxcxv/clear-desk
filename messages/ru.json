@@ -19,7 +19,8 @@
   "aria": {
     "openSidebar": "Открыть меню навигации",
     "closeSidebar": "Закрыть меню навигации",
-    "switchTheme": "Переключить на {theme} тему"
+    "switchTheme": "Переключить на {theme} тему",
+    "languageSwitcher": "Переключатель языка"
   },
 
   "errors": {

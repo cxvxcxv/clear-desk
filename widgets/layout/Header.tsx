@@ -3,6 +3,7 @@
 import { Menu } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { LocaleSwitcher } from '@/features/locale-switcher/';
 import { ThemeSwitcher } from '@/features/theme-switcher';
 
 type THeaderProps = {
@@ -29,7 +30,7 @@ export const Header = ({ isSidebarOpen, onToggleSidebar }: THeaderProps) => {
       </div>
       <div>
         <ThemeSwitcher />
-        <button>locale</button>
+        <LocaleSwitcher />
       </div>
     </header>
   );
