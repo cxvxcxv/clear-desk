@@ -2,6 +2,7 @@
 
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 
 type TSidebarProps = {
   isSidebarOpen: boolean;
@@ -30,7 +31,17 @@ export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
           {t('navigation.title')}
         </h2>
         <nav role="navigation" aria-labelledby="sidebar-title">
-          dsds
+          <ul>
+            <li>
+              <Link href="/dashboard">{t('navigation.dashboard')}</Link>
+            </li>
+            <li>
+              <Link href="/widgets">{t('navigation.widgets')}</Link>
+            </li>
+            <li>
+              <Link href="/settings">{t('navigation.settings')}</Link>
+            </li>
+          </ul>
         </nav>
       </aside>
     </>
