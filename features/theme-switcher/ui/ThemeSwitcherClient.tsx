@@ -22,15 +22,9 @@ export const ThemeSwitcherClient = () => {
       onClick={() => setTheme(nextTheme)}
     >
       {isLight ? (
-        <Moon
-          strokeWidth={1.5}
-          className="hover:fill-foreground hover:rotate-12"
-        />
+        <Moon strokeWidth={1.5} className="hover:fill-foreground" />
       ) : (
-        <Sun
-          strokeWidth={1.5}
-          className="hover:fill-foreground hover:rotate-12"
-        />
+        <Sun strokeWidth={1.5} className="hover:fill-foreground" />
       )}
     </button>
   );

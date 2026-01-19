@@ -4,7 +4,6 @@ import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 
 import { routing } from '@/i18n/routing';
-import { AppShell } from '@/widgets';
 
 type TLocaleLayoutProps = {
   children: React.ReactNode;
@@ -41,7 +40,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider messages={messages}>
-      <AppShell>{children}</AppShell>
+      {children}
     </NextIntlClientProvider>
   );
 }
