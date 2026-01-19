@@ -15,7 +15,7 @@ export const Header = ({ isSidebarOpen, onToggleSidebar }: THeaderProps) => {
   const t = useTranslations('aria');
 
   return (
-    <header className="bg-card border-border h-header-height sticky top-0 z-50 flex shrink-0 items-center justify-between border-b-2 px-4">
+    <header className="bg-card border-border h-header-height sticky top-0 z-50 flex shrink-0 items-center justify-between border-b-2 px-4 transition-colors duration-300">
       <div className="flex gap-4">
         <button
           aria-label={isSidebarOpen ? t('closeSidebar') : t('openSidebar')}
@@ -26,9 +26,9 @@ export const Header = ({ isSidebarOpen, onToggleSidebar }: THeaderProps) => {
         >
           <Menu />
         </button>
-        <h1 className="font-bold">ClearDesk</h1>
+        <h1 className="text-2xl font-semibold tracking-wide">ClearDesk</h1>
       </div>
-      <div>
+      <div className="flex items-center gap-4">
         <ThemeSwitcher />
         <LocaleSwitcher />
       </div>

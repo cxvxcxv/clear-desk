@@ -23,7 +23,7 @@ export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
       <aside
         id="app-sidebar"
         className={clsx(
-          'w-sidebar-width bg-card border-border top-header-height fixed bottom-0 left-0 z-40 flex transform flex-col gap-4 border-r-2 p-4 transition-transform duration-300 ease-out md:static md:translate-x-0',
+          'w-sidebar-width bg-card border-border top-header-height fixed bottom-0 left-0 z-40 flex transform flex-col gap-4 border-r-2 p-4 transition-all duration-300 md:static md:translate-x-0',
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
         )}
       >
@@ -33,7 +33,7 @@ export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
         <nav role="navigation" aria-labelledby="sidebar-title">
           <ul>
             <li>
-              <Link href="/dashboard">{t('navigation.dashboard')}</Link>
+              <Link href="/">{t('navigation.dashboard')}</Link>
             </li>
             <li>
               <Link href="/widgets">{t('navigation.widgets')}</Link>
