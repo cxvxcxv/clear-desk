@@ -3,7 +3,7 @@
 import { ReactNode, useState } from 'react';
 
 import { Header } from './Header';
-import { Sidebar } from './Sidebar';
+import { Sidebar } from './sidebar/Sidebar';
 
 export const AppShell = ({ children }: { children: ReactNode }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
