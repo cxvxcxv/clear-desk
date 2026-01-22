@@ -19,7 +19,7 @@ export const AppShell = ({ children }: { children: ReactNode }) => {
           isSidebarOpen={isSidebarOpen}
           onSidebarClose={() => setIsSidebarOpen(false)}
         />
-        <main id="main-content" className="flex-1 overflow-y-auto p-4">
+        <main id="main-content" className="flex-1 overflow-y-auto p-6">
           {children}
         </main>
       </div>

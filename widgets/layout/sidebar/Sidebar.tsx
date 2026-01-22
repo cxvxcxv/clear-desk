@@ -12,7 +12,7 @@ type TSidebarProps = {
 };
 
 export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
-  const t = useTranslations();
+  const t = useTranslations('navigation');
   return (
     <>
       {isSidebarOpen && (
@@ -31,7 +31,7 @@ export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
         )}
       >
         <h2 id="sidebar-title" className="sr-only">
-          {t('navigation.title')}
+          {t('title')}
         </h2>
         <nav aria-labelledby="sidebar-title">
           <ul className="flex flex-col gap-2">

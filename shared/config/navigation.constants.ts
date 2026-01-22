@@ -1,6 +1,11 @@
 import { BarChart3, Info, LayoutGrid, Settings } from 'lucide-react';
+import { LucideIcon } from 'lucide-react';
 
-import { TSidebarItem } from '@/shared/entities';
+type TSidebarItem = {
+  key: string;
+  href: string;
+  icon: LucideIcon;
+};
 
 export const NAVIGATION: TSidebarItem[] = [
   {
