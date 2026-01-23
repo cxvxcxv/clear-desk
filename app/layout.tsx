@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 import { getLocale } from 'next-intl/server';
 import { ThemeProvider } from 'next-themes';
-import { Poppins } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import { ReactNode } from 'react';
 
 import './globals.css';
 
-const poppins = Poppins({
-  subsets: ['latin'],
+const manrope = Manrope({
+  subsets: ['latin', 'cyrillic'],
   weight: ['400', '500', '600', '700'],
 });
 
@@ -24,7 +24,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className={`${poppins.className} antialiased`}>
+      <body className={`${manrope.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           {children}
         </ThemeProvider>

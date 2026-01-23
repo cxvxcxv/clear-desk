@@ -17,6 +17,14 @@
     "dark": "dark"
   },
 
+  "widgets": {
+    "clock": "Clock",
+    "notes": "Notes",
+    "pomodoro": "Pomodoro",
+    "weather": "Weather",
+    "tasks": "Tasks"
+  },
+
   "aria": {
     "openSidebar": "Open navigation menu",
     "closeSidebar": "Close navigation menu",

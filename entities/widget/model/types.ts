@@ -13,6 +13,6 @@ export type TWidgetLayout = {
 export type TWidget = {
   id: string;
   type: TWidgetType;
-  order: number;
+  sortOrder: number;
   layout: TWidgetLayout;
 };
