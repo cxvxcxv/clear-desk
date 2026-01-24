@@ -6,7 +6,11 @@ type TDashboardGridProps = {
 
 export const DashboardGrid = ({ children }: TDashboardGridProps) => {
   return (
-    <section className="grid auto-rows-fr grid-cols-6 gap-4">
+    <section
+      role="grid"
+      aria-label="Dashboard widgets"
+      className="grid auto-rows-fr grid-cols-6 gap-4"
+    >
       {children}
     </section>
   );
