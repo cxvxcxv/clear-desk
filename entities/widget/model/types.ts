@@ -7,7 +7,7 @@ export type TWidgetLayout = {
   maxColSpan?: number;
   minRowSpan?: number;
   maxRowSpan?: number;
-  resiable?: boolean;
+  resizable?: boolean;
 };
 
 export type TWidget = {

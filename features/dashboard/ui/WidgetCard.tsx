@@ -4,22 +4,24 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
 
-import { TWidgetType } from '@/entities/widget';
+import { TWidgetLayout, TWidgetType } from '@/entities/widget';
 
 type TWidgetCardProps = {
   type: TWidgetType;
+  layout: TWidgetLayout;
   children: ReactNode;
+  className?: string;
   onEdit?: () => void;
   onDelete?: () => void;
-  className?: string;
 };
 
 export const WidgetCard = ({
   type,
+  layout,
   children,
+  className,
   onEdit,
   onDelete,
-  className,
 }: TWidgetCardProps) => {
   const t = useTranslations('widgets');
   const titleId = `widget-title-${type}`;
@@ -27,8 +29,12 @@ export const WidgetCard = ({
   return (
     <section
       aria-labelledby={titleId}
+      style={{
+        gridColumn: `span ${layout.colSpan}`,
+        gridRow: `span ${layout.rowSpan}`,
+      }}
       className={clsx(
-        'border-border col-span-1 row-span-1 flex flex-col rounded border shadow-sm',
+        'border-border flex flex-col rounded border shadow-sm',
         className,
       )}
     >

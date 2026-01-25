@@ -17,6 +17,24 @@ export const MOCK_DASHBOARDS: TDashboard[] = [
         sortOrder: 2,
         layout: { colSpan: 2, rowSpan: 2 },
       },
+      {
+        id: 'w3',
+        type: 'pomodoro',
+        sortOrder: 2,
+        layout: { colSpan: 2, rowSpan: 2 },
+      },
+      {
+        id: 'w4',
+        type: 'weather',
+        sortOrder: 2,
+        layout: { colSpan: 2, rowSpan: 1 },
+      },
+      {
+        id: 'w5',
+        type: 'tasks',
+        sortOrder: 2,
+        layout: { colSpan: 1, rowSpan: 2 },
+      },
     ],
   },
 ];
