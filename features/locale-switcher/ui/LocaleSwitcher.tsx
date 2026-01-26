@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from 'next-intl';
 
 import { usePathname, useRouter } from '@/i18n/navigation';
 import { routing } from '@/i18n/routing';
-import { Option, Select } from '@/shared';
+import { Option, Select } from '@/shared/ui';
 
 export const LocaleSwitcher = () => {
   const locales = routing.locales;
