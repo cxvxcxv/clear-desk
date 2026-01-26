@@ -19,7 +19,7 @@ export const Sidebar = ({ isSidebarOpen, onSidebarClose }: TSidebarProps) => {
         <div
           role="presentation"
           aria-hidden
-          className="bg-background/40 fixed inset-0 z-30 transition-colors duration-300 md:hidden"
+          className="bg-background/40 fixed inset-0 z-30 md:hidden"
           onClick={onSidebarClose}
         />
       )}

@@ -22,7 +22,12 @@
     "notes": "Notes",
     "pomodoro": "Pomodoro",
     "weather": "Weather",
-    "tasks": "Tasks"
+    "tasks": "Tasks",
+
+    "notFound": {
+      "title": "Widget not found",
+      "description": "This widget is no longer available or failed to load."
+    }
   },
 
   "aria": {

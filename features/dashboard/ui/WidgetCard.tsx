@@ -4,11 +4,10 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactNode } from 'react';
 
-import { TWidgetLayout, TWidgetType } from '@/entities/widget';
+import { TWidgetType } from '@/entities/widget';
 
 type TWidgetCardProps = {
   type: TWidgetType;
-  layout: TWidgetLayout;
   children: ReactNode;
   className?: string;
   onEdit?: () => void;
@@ -17,7 +16,6 @@ type TWidgetCardProps = {
 
 export const WidgetCard = ({
   type,
-  layout,
   children,
   className,
   onEdit,
@@ -29,12 +27,8 @@ export const WidgetCard = ({
   return (
     <section
       aria-labelledby={titleId}
-      style={{
-        gridColumn: `span ${layout.colSpan}`,
-        gridRow: `span ${layout.rowSpan}`,
-      }}
       className={clsx(
-        'border-border flex flex-col rounded border shadow-sm',
+        'border-border flex h-full flex-col rounded border shadow-sm',
         className,
       )}
     >

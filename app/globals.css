@@ -29,11 +29,19 @@
 
   --spacing-sidebar-width: theme('spacing.64');
   --spacing-header-height: theme('spacing.16');
+
+  --default-transition-duration: 300ms;
 }
 
 @layer base {
+  * {
+    transition: background-color, border-color;
+    transition-duration: 300ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   body {
-    @apply bg-background text-foreground transition-colors duration-300;
+    @apply bg-background text-foreground transition-colors;
   }
 
   button {
