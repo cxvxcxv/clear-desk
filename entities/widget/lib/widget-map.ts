@@ -2,10 +2,10 @@ import { ComponentType } from 'react';
 
 import { TWidgetType } from '../model';
 
+import { PomodoroWidget } from '@/features/pomodoro';
 import {
   ClockWidget,
   NotesWidget,
-  PomodoroWidget,
   TasksWidget,
   WeatherWidget,
 } from '@/widgets';

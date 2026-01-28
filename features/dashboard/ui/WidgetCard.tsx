@@ -33,9 +33,9 @@ export const WidgetCard = ({
       )}
     >
       <header className="bg-card border-border flex items-center justify-between border-b p-2">
-        <h3 id={titleId} className="font-medium">
+        <h2 id={titleId} className="font-medium">
           {t(type)}
-        </h3>
+        </h2>
         <div className="flex gap-2">
           {onEdit && (
             <button
