@@ -1,8 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+'use client';
 
-import { TPomodoroConfig, TPomodoroPhase } from '@/entities/pomodoro';
+import { useEffect, useReducer, useRef } from 'react';
 
-const toSeconds = (minutes: number) => Math.round(minutes * 60);
+import { minutesToSeconds } from '../lib';
+
+import {
+  TPomodoroConfig,
+  TPomodoroPhase,
+  TPomodoroState,
+} from '@/entities/pomodoro';
 
 const DEFAULT_CONFIG: TPomodoroConfig = {
   workMinutes: 0.1,
@@ -11,83 +17,110 @@ const DEFAULT_CONFIG: TPomodoroConfig = {
   cyclesBeforeLongBreak: 4,
 };
 
-export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
-  const {
-    workMinutes,
-    shortBreakMinutes,
-    longBreakMinutes,
-    cyclesBeforeLongBreak,
-  } = config;
+type TAction =
+  | { type: 'TICK'; config: TPomodoroConfig }
+  | { type: 'TOGGLE' }
+  | { type: 'RESET'; config: TPomodoroConfig }
+  | { type: 'SYNC_TIME'; remainingSeconds: number };
 
-  const [phase, setPhase] = useState<TPomodoroPhase>('work');
-  const [remainingSeconds, setRemainingSeconds] = useState(
-    toSeconds(workMinutes),
-  );
-  const [isRunning, setIsRunning] = useState(false);
-  const [completedCycles, setCompletedCycles] = useState(0);
+// reducer
 
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
+  switch (action.type) {
+    case 'TOGGLE':
+      return { ...state, isRunning: !state.isRunning };
 
-  const handlePhaseEnd = useCallback(() => {
-    setPhase(currentPhase => {
-      if (currentPhase === 'work') {
-        const nextCycleCount = completedCycles + 1;
-        setCompletedCycles(nextCycleCount);
+    case 'RESET':
+      return {
+        phase: 'work',
+        remainingSeconds: minutesToSeconds(action.config.workMinutes),
+        isRunning: false,
+        completedCycles: 0,
+      };
 
-        if (nextCycleCount % cyclesBeforeLongBreak === 0) {
-          setRemainingSeconds(toSeconds(longBreakMinutes));
-          return 'longBreak';
-        }
-        setRemainingSeconds(toSeconds(shortBreakMinutes));
-        return 'shortBreak';
-      } else {
-        setRemainingSeconds(toSeconds(workMinutes));
-        return 'work';
-      }
-    });
-  }, [
-    completedCycles,
-    cyclesBeforeLongBreak,
-    workMinutes,
-    shortBreakMinutes,
-    longBreakMinutes,
-  ]);
+    case 'SYNC_TIME':
+      return { ...state, remainingSeconds: action.remainingSeconds };
 
-  useEffect(() => {
-    if (isRunning) {
-      timerRef.current = setInterval(() => {
-        setRemainingSeconds(prev => {
-          if (prev <= 1) {
-            if (timerRef.current) clearInterval(timerRef.current);
-            handlePhaseEnd();
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
+    case 'TICK': {
+      const isWorkEnding = state.phase === 'work';
+      const newCycles = isWorkEnding
+        ? state.completedCycles + 1
+        : state.completedCycles;
+
+      const isLongBreak =
+        isWorkEnding && newCycles % action.config.cyclesBeforeLongBreak === 0;
+
+      const nextPhase: TPomodoroPhase = isWorkEnding
+        ? isLongBreak
+          ? 'longBreak'
+          : 'shortBreak'
+        : 'work';
+
+      const durations = {
+        work: action.config.workMinutes,
+        shortBreak: action.config.shortBreakMinutes,
+        longBreak: action.config.longBreakMinutes,
+      };
+
+      return {
+        ...state,
+        phase: nextPhase,
+        completedCycles: newCycles,
+        remainingSeconds: minutesToSeconds(durations[nextPhase]),
+        isRunning: true,
+      };
     }
 
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [isRunning, handlePhaseEnd]);
+    default:
+      return state;
+  }
+}
 
-  const toggleTimer = () => setIsRunning(prev => !prev);
+// hook
 
-  const resetTimer = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    setIsRunning(false);
-    setPhase('work');
-    setRemainingSeconds(toSeconds(workMinutes));
-    setCompletedCycles(0);
-  };
+export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
+  const [state, dispatch] = useReducer(reducer, {
+    phase: 'work',
+    remainingSeconds: minutesToSeconds(config.workMinutes),
+    isRunning: false,
+    completedCycles: 0,
+  });
+
+  const configRef = useRef(config);
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    configRef.current = config;
+  }, [config]);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
+
+  useEffect(() => {
+    if (!state.isRunning) return;
+
+    const startTime = Date.now();
+    const secondsAtStart = stateRef.current.remainingSeconds;
+
+    const interval = setInterval(() => {
+      const elapsedMs = Date.now() - startTime;
+      const elapsedSec = Math.floor(elapsedMs / 1000);
+      const newRemaining = Math.max(0, secondsAtStart - elapsedSec);
+
+      if (newRemaining > 0) {
+        dispatch({ type: 'SYNC_TIME', remainingSeconds: newRemaining });
+      } else {
+        dispatch({ type: 'TICK', config: configRef.current });
+      }
+    }, 200); // synchronizing time every 200ms
+
+    return () => clearInterval(interval);
+  }, [state.isRunning, state.phase]);
 
   return {
-    phase,
-    remainingSeconds,
-    isRunning,
-    completedCycles,
-    toggleTimer,
-    resetTimer,
+    ...state,
+    toggleTimer: () => dispatch({ type: 'TOGGLE' }),
+    resetTimer: () => dispatch({ type: 'RESET', config }),
   };
 };

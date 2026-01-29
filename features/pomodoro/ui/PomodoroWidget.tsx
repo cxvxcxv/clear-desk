@@ -23,11 +23,7 @@ export const PomodoroWidget = () => {
       <span>{completedCycles}</span>
 
       <div className="flex gap-2">
-        {!isRunning ? (
-          <button onClick={toggleTimer}>Start</button>
-        ) : (
-          <button onClick={stop}>Pause</button>
-        )}
+        <button onClick={toggleTimer}>{isRunning ? 'Pause' : 'Start'}</button>
         <button onClick={resetTimer}>Reset</button>
         {/* <button onClick={skip}>Skip</button> */}
       </div>

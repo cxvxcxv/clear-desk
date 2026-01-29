@@ -4,7 +4,7 @@ export type TPomodoroState = {
   phase: TPomodoroPhase;
   remainingSeconds: number;
   isRunning: boolean;
-  cycle: number;
+  completedCycles: number;
 };
 
 export type TPomodoroConfig = {
