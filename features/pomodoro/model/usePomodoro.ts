@@ -18,7 +18,7 @@ const DEFAULT_CONFIG: TPomodoroConfig = {
 };
 
 type TAction =
-  | { type: 'TICK'; config: TPomodoroConfig }
+  | { type: 'NEXT_PHASE'; config: TPomodoroConfig }
   | { type: 'TOGGLE' }
   | { type: 'RESET'; config: TPomodoroConfig }
   | { type: 'SYNC_TIME'; remainingSeconds: number };
@@ -41,7 +41,7 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
     case 'SYNC_TIME':
       return { ...state, remainingSeconds: action.remainingSeconds };
 
-    case 'TICK': {
+    case 'NEXT_PHASE': {
       const isWorkEnding = state.phase === 'work';
       const newCycles = isWorkEnding
         ? state.completedCycles + 1
@@ -111,7 +111,7 @@ export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
       if (newRemaining > 0) {
         dispatch({ type: 'SYNC_TIME', remainingSeconds: newRemaining });
       } else {
-        dispatch({ type: 'TICK', config: configRef.current });
+        dispatch({ type: 'NEXT_PHASE', config: configRef.current });
       }
     }, 200); // synchronizing time every 200ms
 
@@ -122,5 +122,6 @@ export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
     ...state,
     toggleTimer: () => dispatch({ type: 'TOGGLE' }),
     resetTimer: () => dispatch({ type: 'RESET', config }),
+    skipCycle: () => dispatch({ type: 'NEXT_PHASE', config }),
   };
 };
