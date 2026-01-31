@@ -67,7 +67,6 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
         phase: nextPhase,
         completedCycles: newCycles,
         remainingSeconds: minutesToSeconds(durations[nextPhase]),
-        isRunning: true,
       };
     }
 
@@ -120,6 +119,13 @@ export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
 
   return {
     ...state,
+    totalSeconds: minutesToSeconds(
+      state.phase === 'work'
+        ? config.workMinutes
+        : state.phase === 'shortBreak'
+          ? config.shortBreakMinutes
+          : config.longBreakMinutes,
+    ),
     toggleTimer: () => dispatch({ type: 'TOGGLE' }),
     resetTimer: () => dispatch({ type: 'RESET', config }),
     skipCycle: () => dispatch({ type: 'NEXT_PHASE', config }),

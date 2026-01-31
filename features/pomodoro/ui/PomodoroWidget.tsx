@@ -7,6 +7,7 @@ export const PomodoroWidget = () => {
   const {
     phase,
     remainingSeconds,
+    totalSeconds,
     isRunning,
     completedCycles,
     toggleTimer,
@@ -22,6 +23,7 @@ export const PomodoroWidget = () => {
 
       <span className="font-mono text-3xl">{formatTime(remainingSeconds)}</span>
       <span>{completedCycles}</span>
+      <span>{totalSeconds}</span>
 
       <div className="flex gap-2">
         <button onClick={toggleTimer}>{isRunning ? 'Pause' : 'Start'}</button>
