@@ -3,6 +3,8 @@
 import { formatTime } from '../lib';
 import { usePomodoro } from '../model';
 
+import { CircularProgress } from '@/shared/ui';
+
 export const PomodoroWidget = () => {
   const {
     phase,
@@ -17,13 +19,29 @@ export const PomodoroWidget = () => {
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-3">
-      <span className="text-muted-foreground text-sm tracking-wide uppercase">
-        {phase}
-      </span>
+      <div className="relative">
+        <CircularProgress
+          value={remainingSeconds / totalSeconds}
+          size={180}
+          className="text-primary"
+        />
 
-      <span className="font-mono text-3xl">{formatTime(remainingSeconds)}</span>
-      <span>{completedCycles}</span>
-      <span>{totalSeconds}</span>
+        <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col gap-1 text-center">
+          {phase === 'work' && (
+            <span className="text-muted text-xs">
+              cycle {completedCycles + 1}
+            </span>
+          )}
+
+          <span className="font-mono text-3xl">
+            {formatTime(remainingSeconds)}
+          </span>
+
+          <span className="text-muted text-sm tracking-widest uppercase">
+            {phase}
+          </span>
+        </div>
+      </div>
 
       <div className="flex gap-2">
         <button onClick={toggleTimer}>{isRunning ? 'Pause' : 'Start'}</button>

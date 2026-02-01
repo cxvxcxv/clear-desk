@@ -11,7 +11,7 @@ import {
 } from '@/entities/pomodoro';
 
 const DEFAULT_CONFIG: TPomodoroConfig = {
-  workMinutes: 0.1,
+  workMinutes: 25,
   shortBreakMinutes: 0.1,
   longBreakMinutes: 0.1,
   cyclesBeforeLongBreak: 4,
