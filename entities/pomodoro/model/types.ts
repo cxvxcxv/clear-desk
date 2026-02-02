@@ -13,5 +13,3 @@ export type TPomodoroConfig = {
   longBreakMinutes: number;
   cyclesBeforeLongBreak: number;
 };
-
-export type TPomodoroView = 'timer' | 'settings';
