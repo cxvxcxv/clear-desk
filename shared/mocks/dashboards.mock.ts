@@ -21,7 +21,7 @@ export const MOCK_DASHBOARDS: TDashboard[] = [
         id: 'w3',
         type: 'pomodoro',
         sortOrder: 2,
-        layout: { colSpan: 2, rowSpan: 2 },
+        layout: { colSpan: 2, rowSpan: 1 },
       },
       {
         id: 'w4',
