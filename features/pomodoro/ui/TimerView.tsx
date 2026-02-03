@@ -1,9 +1,7 @@
 import clsx from 'clsx';
 import { ChevronLast, RotateCcw, Settings } from 'lucide-react';
 
-import { formatTime } from '../lib';
-import { usePomodoro } from '../model';
-
+import { formatTime, usePomodoro } from '@/entities/pomodoro';
 import { CircularProgress } from '@/shared/ui';
 
 type TTimerViewProps = {
@@ -41,7 +39,7 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
           size={180}
           className={clsx(
             'text-primary rounded-full shadow',
-            isEnding && 'scale-105 animate-pulse',
+            isEnding && 'animate-pulse',
           )}
         />
 
@@ -77,7 +75,7 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
         </button>
         <button
           onClick={skipCycle}
-          className="border-border h-8 w-8 rounded-full border-2 p-1 transition-transform hover:translate-x-0.5"
+          className="border-border h-8 w-8 rounded-full border-2 p-1"
         >
           <ChevronLast strokeWidth={1.5} className="h-full w-full" />
         </button>

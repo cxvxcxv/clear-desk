@@ -2,7 +2,7 @@
 
 import { useClock } from '@/shared/hooks';
 
-export const ClockWidget = () => {
+export const Clock = () => {
   const now = useClock();
 
   if (!now) return null;

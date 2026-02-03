@@ -2,14 +2,15 @@
 
 import { useState } from 'react';
 
-import { SettingsRoot } from './SettingsRoot';
-import { TimerView } from './TimerView';
+import { SettingsRoot } from '../../features/pomodoro/ui/SettingsRoot';
+import { TimerView } from '../../features/pomodoro/ui/TimerView';
+
 import { PanelStack } from '@/shared/ui';
 
 type TRootView = 'timer' | 'settings';
 const ROOT_VIEWS: TRootView[] = ['timer', 'settings'];
 
-export const PomodoroWidget = () => {
+export const Pomodoro = () => {
   const [rootView, setRootView] = useState<TRootView>('timer');
   return (
     <PanelStack

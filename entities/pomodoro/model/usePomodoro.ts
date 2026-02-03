@@ -4,11 +4,7 @@ import { useEffect, useReducer, useRef } from 'react';
 
 import { minutesToSeconds } from '../lib';
 
-import {
-  TPomodoroConfig,
-  TPomodoroPhase,
-  TPomodoroState,
-} from '@/entities/pomodoro';
+import { TPomodoroConfig, TPomodoroPhase, TPomodoroState } from './types';
 
 const DEFAULT_CONFIG: TPomodoroConfig = {
   workMinutes: 25,
