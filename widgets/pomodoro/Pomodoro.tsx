@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-import { SettingsRoot } from '../../features/pomodoro/ui/SettingsRoot';
 import { TimerView } from '../../features/pomodoro/ui/TimerView';
+import { SettingsView } from '../../features/pomodoro/ui/settings/SettingsView';
 
 import { PanelStack } from '@/shared/ui';
 
@@ -19,7 +19,7 @@ export const Pomodoro = () => {
       render={v => {
         if (v === 'timer')
           return <TimerView openSettings={() => setRootView('settings')} />;
-        return <SettingsRoot onBack={() => setRootView('timer')} />;
+        return <SettingsView onBack={() => setRootView('timer')} />;
       }}
     />
   );

@@ -14,18 +14,13 @@ export function PanelStack<T extends string>({
   const index = views.indexOf(view);
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
+    <div className="h-full w-full overflow-hidden">
       <div
         className="flex h-full transition-transform"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {views.map(v => (
-          <div
-            key={v}
-            className="w-full shrink-0"
-            inert={v !== view}
-            aria-hidden={v !== view}
-          >
+          <div key={v} className="w-full shrink-0" inert={v !== view}>
             {render(v)}
           </div>
         ))}

@@ -27,10 +27,11 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
     <div className="relative flex flex-col items-center justify-center gap-4">
       <div className="absolute top-0 right-0 flex flex-col gap-2">
         <button
-          className={clsx('border-border h-8 w-8 rounded-full border-2 p-1')}
+          aria-label="settings"
+          className="border-border flex items-center justify-center rounded-full border-2 p-1"
           onClick={openSettings}
         >
-          <Settings strokeWidth={1.25} className="h-full w-full" />
+          <Settings strokeWidth={1.25} className="h-6 w-6" />
         </button>
       </div>
       <div className="relative">
@@ -62,22 +63,25 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
 
       <div className="flex w-full items-center justify-between gap-2">
         <button
-          className="border-border h-8 w-8 rounded-full border-2 p-1.5"
+          aria-label="reset timer"
+          className="border-border flex h-8 w-8 items-center justify-center rounded-full border-2"
           onClick={resetTimer}
         >
-          <RotateCcw strokeWidth={1.5} className="h-full w-full" />
+          <RotateCcw strokeWidth={1.5} className="h-4.5 w-4.5" />
         </button>
         <button
+          aria-label={isRunning ? 'pause timer' : 'start timer'}
           onClick={toggleTimer}
           className="bg-primary/15 rounded-full px-12 py-2 transition-transform hover:scale-105 active:scale-95"
         >
           {isRunning ? 'Pause' : 'Start'}
         </button>
         <button
+          aria-label="skip cycle"
           onClick={skipCycle}
-          className="border-border h-8 w-8 rounded-full border-2 p-1"
+          className="border-border flex h-8 w-8 items-center justify-center rounded-full border-2"
         >
-          <ChevronLast strokeWidth={1.5} className="h-full w-full" />
+          <ChevronLast strokeWidth={1.5} className="h-5 w-5" />
         </button>
       </div>
     </div>
