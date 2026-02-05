@@ -30,6 +30,26 @@
     }
   },
 
+  "pomodoro": {
+    "settings": {
+      "title": "Settings",
+      "durations": "Durations",
+      "notifications": "Notifications"
+    },
+
+    "durations": {
+      "work": "Work",
+      "shortBreak": "Short break",
+      "longBreak": "Long break"
+    },
+
+    "notifications": {
+      "enable": "Enable notifications",
+      "sound": "Sound",
+      "volume": "Volume"
+    }
+  },
+
   "aria": {
     "openSidebar": "Open navigation menu",
     "closeSidebar": "Close navigation menu",

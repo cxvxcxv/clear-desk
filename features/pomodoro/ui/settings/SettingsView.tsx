@@ -1,19 +1,27 @@
 import { ChevronLeft } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { DurationsView } from './DurationsView';
-import { NotificationsView } from './NotificationsView';
-import { PanelStack } from '@/shared/ui';
+import { DurationsTab } from './DurationsTab';
+import { NotificationsTab } from './NotificationsTab';
+import { PanelStack, SegmentedControl } from '@/shared/ui';
 
 type TSettingsViewProps = {
   onBack: () => void;
 };
 
-type TSettingsView = 'durations' | 'notifications';
-const SETTINGS_VIEWS: TSettingsView[] = ['durations', 'notifications'];
+type TSettingsTab = 'durations' | 'notifications';
+const SETTINGS_TABS: TSettingsTab[] = ['durations', 'notifications'];
 
 export const SettingsView = ({ onBack }: TSettingsViewProps) => {
-  const [settingsView, setSettingsView] = useState<TSettingsView>('durations');
+  const [activeTab, setActiveTab] = useState<TSettingsTab>('durations');
+  const t = useTranslations('pomodoro.settings');
+
+  const items = [
+    { id: 'durations', label: t('durations') },
+    { id: 'notifications', label: t('notifications') },
+  ] as const;
+
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4">
       <header className="grid w-full grid-cols-3 items-center">
@@ -23,31 +31,22 @@ export const SettingsView = ({ onBack }: TSettingsViewProps) => {
         >
           <ChevronLeft strokeWidth={1.5} className="h-6 w-6" />
         </button>
-        <h3 className="text-center text-lg font-semibold">Settings</h3>
+        <h3 className="text-center text-lg font-semibold">{t('title')}</h3>
         <div /> {/* spacer column */}
       </header>
 
-      <nav className="bg-card flex items-center justify-center gap-8 rounded-full px-8 py-2 text-xs">
-        <button
-          className="uppercase"
-          onClick={() => setSettingsView('durations')}
-        >
-          Durations
-        </button>
-        <button
-          className="uppercase"
-          onClick={() => setSettingsView('notifications')}
-        >
-          Notifications
-        </button>
-      </nav>
+      <SegmentedControl
+        value={activeTab}
+        onChange={value => setActiveTab(value)}
+        items={items}
+      />
 
       <PanelStack
-        view={settingsView}
-        views={SETTINGS_VIEWS}
+        view={activeTab}
+        views={SETTINGS_TABS}
         render={v => {
-          if (v === 'durations') return <DurationsView />;
-          return <NotificationsView />;
+          if (v === 'durations') return <DurationsTab />;
+          return <NotificationsTab />;
         }}
       />
     </div>

@@ -16,7 +16,7 @@ export function PanelStack<T extends string>({
   return (
     <div className="h-full w-full overflow-hidden">
       <div
-        className="flex h-full transition-transform"
+        className="flex h-full transition-transform duration-500 ease-in-out"
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {views.map(v => (

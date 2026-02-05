@@ -1,3 +1,3 @@
-export * from './DurationsView';
-export * from './NotificationsView';
+export * from './DurationsTab';
+export * from './NotificationsTab';
 export * from './SettingsView';

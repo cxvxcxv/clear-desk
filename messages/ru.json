@@ -30,6 +30,26 @@
     }
   },
 
+  "pomodoro": {
+    "settings": {
+      "title": "Настройки",
+      "durations": "Временные интервалы",
+      "notifications": "Уведомления"
+    },
+
+    "durations": {
+      "work": "Работа",
+      "shortBreak": "Короткий перерыв",
+      "longBreak": "Длинный перерыв"
+    },
+
+    "notifications": {
+      "enable": "Включить уведомления",
+      "sound": "Звук",
+      "volume": "Громкость"
+    }
+  },
+
   "aria": {
     "openSidebar": "Открыть меню навигации",
     "closeSidebar": "Закрыть меню навигации",
