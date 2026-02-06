@@ -26,8 +26,9 @@ export const SettingsView = ({ onBack }: TSettingsViewProps) => {
     <div className="flex h-full flex-col items-center justify-center gap-4">
       <header className="grid w-full grid-cols-3 items-center">
         <button
-          onClick={onBack}
+          aria-label={t('back')}
           className="border-border flex h-8 w-8 items-center justify-center rounded-full border-2"
+          onClick={onBack}
         >
           <ChevronLeft strokeWidth={1.5} className="h-6 w-6" />
         </button>

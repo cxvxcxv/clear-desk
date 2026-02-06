@@ -33,6 +33,7 @@
   "pomodoro": {
     "settings": {
       "title": "Settings",
+      "back": "Back",
       "durations": "Durations",
       "notifications": "Notifications"
     },

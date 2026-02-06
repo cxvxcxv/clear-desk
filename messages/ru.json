@@ -33,7 +33,8 @@
   "pomodoro": {
     "settings": {
       "title": "Настройки",
-      "durations": "Временные интервалы",
+      "back": "Назад",
+      "durations": "Длительности",
       "notifications": "Уведомления"
     },
 

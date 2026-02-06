@@ -67,6 +67,8 @@ export function SegmentedControl<T extends string>({
         <button
           key={item.id}
           role="tab"
+          aria-selected={item.id === value}
+          tabIndex={item.id === value ? -1 : 0}
           ref={el => {
             if (el) itemsRef.current.set(item.id, el);
             else itemsRef.current.delete(item.id);
