@@ -1,7 +1,10 @@
 import clsx from 'clsx';
 import { ChevronLast, RotateCcw, Settings } from 'lucide-react';
 
+import { usePomodoroSound } from '../model';
+
 import { formatTime, usePomodoro } from '@/entities/pomodoro';
+import { soundManager } from '@/shared/sound';
 import { CircularProgress } from '@/shared/ui';
 
 type TTimerViewProps = {
@@ -20,7 +23,16 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
     resetTimer,
   } = usePomodoro();
 
+  usePomodoroSound(phase, isRunning);
+
   const isEnding = remainingSeconds <= 5;
+
+  const handleToggle = async () => {
+    if (!isRunning) {
+      await soundManager.init(); // Unlocks Web Audio on user gesture
+    }
+    toggleTimer();
+  };
 
   // todo: a11y, micro-interactions, responsiveness, i18n
   return (
@@ -71,7 +83,7 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
         </button>
         <button
           aria-label={isRunning ? 'pause timer' : 'start timer'}
-          onClick={toggleTimer}
+          onClick={handleToggle}
           className="bg-primary/15 rounded-full px-12 py-2 transition-transform hover:scale-105 active:scale-95"
         >
           {isRunning ? 'Pause' : 'Start'}
