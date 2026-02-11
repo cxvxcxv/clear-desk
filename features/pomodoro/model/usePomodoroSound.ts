@@ -15,11 +15,15 @@ const PHASE_SOUND_CONFIG: Record<
 export const usePomodoroSound = (phase: TPomodoroPhase, isRunning: boolean) => {
   const prevPhase = useRef<TPomodoroPhase>(phase);
   const prevIsRunning = useRef<boolean>(isRunning);
+  const isLoaded = useRef(false);
 
   useEffect(() => {
-    Object.entries(PHASE_SOUND_CONFIG).forEach(([name, config]) => {
-      soundManager.load(name, `/sounds/${config.file}`);
-    });
+    if (!isLoaded.current) {
+      Object.entries(PHASE_SOUND_CONFIG).forEach(([name, config]) => {
+        soundManager.load(name, `/sounds/${config.file}`);
+      });
+      isLoaded.current = true;
+    }
 
     return () => {
       soundManager.stopAll();
@@ -31,7 +35,13 @@ export const usePomodoroSound = (phase: TPomodoroPhase, isRunning: boolean) => {
     const hasSwitchedPhase = prevPhase.current !== phase && isRunning;
 
     if (hasStarted || hasSwitchedPhase) {
-      soundManager.playTone(800, 0.5);
+      const config = PHASE_SOUND_CONFIG[phase];
+
+      if (config) {
+        soundManager.play(phase);
+      } else {
+        soundManager.playTone(800, 0.5);
+      }
     }
 
     prevPhase.current = phase;
