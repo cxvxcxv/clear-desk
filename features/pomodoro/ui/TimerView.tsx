@@ -23,7 +23,7 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
     resetTimer,
   } = usePomodoro();
 
-  usePomodoroSound(phase, isRunning);
+  usePomodoroSound(phase, isRunning, remainingSeconds);
 
   const isEnding = remainingSeconds <= 5;
 

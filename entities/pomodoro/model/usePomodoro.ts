@@ -4,24 +4,18 @@ import { useEffect, useReducer, useRef } from 'react';
 
 import { minutesToSeconds } from '../lib';
 
-import { TPomodoroConfig, TPomodoroPhase, TPomodoroState } from './types';
-
-const DEFAULT_CONFIG: TPomodoroConfig = {
-  workMinutes: 25,
-  shortBreakMinutes: 0.1,
-  longBreakMinutes: 0.1,
-  cyclesBeforeLongBreak: 4,
-};
+import { usePomodoroSettings } from './store';
+import { IPomodoroSettings, IPomodoroState, TPomodoroPhase } from './types';
 
 type TAction =
-  | { type: 'NEXT_PHASE'; config: TPomodoroConfig }
+  | { type: 'NEXT_PHASE'; settings: IPomodoroSettings }
   | { type: 'TOGGLE' }
-  | { type: 'RESET'; config: TPomodoroConfig }
+  | { type: 'RESET'; settings: IPomodoroSettings }
   | { type: 'SYNC_TIME'; remainingSeconds: number };
 
 // reducer
 
-function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
+function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
   switch (action.type) {
     case 'TOGGLE':
       return { ...state, isRunning: !state.isRunning };
@@ -29,7 +23,7 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
     case 'RESET':
       return {
         phase: 'work',
-        remainingSeconds: minutesToSeconds(action.config.workMinutes),
+        remainingSeconds: minutesToSeconds(action.settings.workMinutes),
         isRunning: false,
         completedCycles: 0,
       };
@@ -44,7 +38,7 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
         : state.completedCycles;
 
       const isLongBreak =
-        isWorkEnding && newCycles % action.config.cyclesBeforeLongBreak === 0;
+        isWorkEnding && newCycles % action.settings.cyclesBeforeLongBreak === 0;
 
       const nextPhase: TPomodoroPhase = isWorkEnding
         ? isLongBreak
@@ -53,9 +47,9 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
         : 'work';
 
       const durations = {
-        work: action.config.workMinutes,
-        shortBreak: action.config.shortBreakMinutes,
-        longBreak: action.config.longBreakMinutes,
+        work: action.settings.workMinutes,
+        shortBreak: action.settings.shortBreakMinutes,
+        longBreak: action.settings.longBreakMinutes,
       };
 
       return {
@@ -72,21 +66,22 @@ function reducer(state: TPomodoroState, action: TAction): TPomodoroState {
 }
 
 // hook
+export const usePomodoro = () => {
+  const settings = usePomodoroSettings();
 
-export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
   const [state, dispatch] = useReducer(reducer, {
     phase: 'work',
-    remainingSeconds: minutesToSeconds(config.workMinutes),
+    remainingSeconds: minutesToSeconds(settings.workMinutes),
     isRunning: false,
     completedCycles: 0,
   });
 
-  const configRef = useRef(config);
+  const settingsRef = useRef(settings);
   const stateRef = useRef(state);
 
   useEffect(() => {
-    configRef.current = config;
-  }, [config]);
+    settingsRef.current = settings;
+  }, [settings]);
 
   useEffect(() => {
     stateRef.current = state;
@@ -106,7 +101,7 @@ export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
       if (newRemaining > 0) {
         dispatch({ type: 'SYNC_TIME', remainingSeconds: newRemaining });
       } else {
-        dispatch({ type: 'NEXT_PHASE', config: configRef.current });
+        dispatch({ type: 'NEXT_PHASE', settings: settingsRef.current });
       }
     }, 200); // synchronizing time every 200ms
 
@@ -117,13 +112,13 @@ export const usePomodoro = (config: TPomodoroConfig = DEFAULT_CONFIG) => {
     ...state,
     totalSeconds: minutesToSeconds(
       state.phase === 'work'
-        ? config.workMinutes
+        ? settings.workMinutes
         : state.phase === 'shortBreak'
-          ? config.shortBreakMinutes
-          : config.longBreakMinutes,
+          ? settings.shortBreakMinutes
+          : settings.longBreakMinutes,
     ),
     toggleTimer: () => dispatch({ type: 'TOGGLE' }),
-    resetTimer: () => dispatch({ type: 'RESET', config }),
-    skipCycle: () => dispatch({ type: 'NEXT_PHASE', config }),
+    resetTimer: () => dispatch({ type: 'RESET', settings: settings }),
+    skipCycle: () => dispatch({ type: 'NEXT_PHASE', settings: settings }),
   };
 };

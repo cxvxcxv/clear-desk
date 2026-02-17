@@ -116,6 +116,11 @@
   dependencies:
     "@babel/types" "^7.28.5"
 
+"@babel/runtime@^7.23.2":
+  version "7.28.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.28.6.tgz#d267a43cb1836dc4d182cce93ae75ba954ef6d2b"
+  integrity sha512-05WQkdpL9COIMz4LjTxGpPNCdlpyimKppYNoJ5Di5EUObifl8t4tuLuUBBZEpoLYOmfvIWrsp9fCl0HoPRVTdA==
+
 "@babel/template@^7.27.2":
   version "7.27.2"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.27.2.tgz#fa78ceed3c4e7b63ebf6cb39e5852fca45f6809d"
@@ -1375,6 +1380,11 @@ chalk@^4.0.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+chalk@^5.3.0:
+  version "5.6.2"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.6.2.tgz#b1238b6e23ea337af71c7f8a295db5af0c158aea"
+  integrity sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA==
+
 client-only@0.0.1:
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/client-only/-/client-only-0.0.1.tgz#38bba5d403c41ab150bff64a95c85013cf73bca1"
@@ -1499,6 +1509,28 @@ detect-libc@^2.0.3, detect-libc@^2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-2.1.2.tgz#689c5dcdc1900ef5583a4cb9f6d7b473742074ad"
   integrity sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==
+
+dir-tree-cli@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/dir-tree-cli/-/dir-tree-cli-0.1.0.tgz#4b0d024e66a7e8c95529ed9195abb6234b621caa"
+  integrity sha512-SsX6brcRqwqAvRbZE4J0Vr8H8iFypueSwsDRAUJYs4CurzarpL5y5Z/cC1LQpnzwh3sesHxYmFF6dvuAsnBFyQ==
+  dependencies:
+    chalk "^5.3.0"
+    dir-tree-cli "^1.0.3"
+    i18next "^23.8.2"
+    i18next-fs-backend "^2.3.1"
+    os-locale "^6.0.2"
+
+dir-tree-cli@^1.0.3:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/dir-tree-cli/-/dir-tree-cli-1.0.8.tgz#3b449907cc4faf2039df1f9e5bf603af3c57201e"
+  integrity sha512-WPdW1a42yWdJbpqDvGZLvCQuq7YQj9YS7OyvJA05jMQ3/3aoy30WYjfTkz7/9k2OEVf98SHEtMQPlV4504qskg==
+  dependencies:
+    chalk "^5.3.0"
+    dir-tree-cli "^1.0.3"
+    i18next "^23.8.2"
+    i18next-fs-backend "^2.3.1"
+    os-locale "^6.0.2"
 
 doctrine@^2.1.0:
   version "2.1.0"
@@ -2134,6 +2166,18 @@ hermes-parser@^0.25.1:
   dependencies:
     hermes-estree "0.25.1"
 
+i18next-fs-backend@^2.3.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.1.tgz#bb352278136f47599783308df29f0a1b6a0d08b6"
+  integrity sha512-eYWTX7QT7kJ0sZyCPK6x1q+R63zvNKv2D6UdbMf15A8vNb2ZLyw4NNNZxPFwXlIv/U+oUtg8SakW6ZgJZcoqHQ==
+
+i18next@^23.8.2:
+  version "23.16.8"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.16.8.tgz#3ae1373d344c2393f465556f394aba5a9233b93a"
+  integrity sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
+
 ignore@^5.2.0:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-5.3.2.tgz#3cd40e729f3643fd87cb04e50bf0eb722bc596f5"
@@ -2175,6 +2219,11 @@ intl-messageformat@^10.5.14:
     "@formatjs/fast-memoize" "2.2.7"
     "@formatjs/icu-messageformat-parser" "2.11.4"
     tslib "^2.8.0"
+
+invert-kv@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-3.0.1.tgz#a93c7a3d4386a1dc8325b97da9bb1620c0282523"
+  integrity sha512-CYdFeFexxhv/Bcny+Q0BfOV+ltRlJcd4BBZBYFX/O0u4npJrgZtIcjokegtiSMAvlMTJ+Koq0GBCc//3bueQxw==
 
 is-array-buffer@^3.0.4, is-array-buffer@^3.0.5:
   version "3.0.5"
@@ -2470,6 +2519,13 @@ language-tags@^1.0.9:
   integrity sha512-MbjN408fEndfiQXbFQ1vnd+1NoLDsnQW41410oQBXiyXDMYH5z505juWa4KUE1LqxRC7DgOgZDbKLxHIwm27hA==
   dependencies:
     language-subtag-registry "^0.3.20"
+
+lcid@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/lcid/-/lcid-3.1.1.tgz#9030ec479a058fc36b5e8243ebaac8b6ac582fd0"
+  integrity sha512-M6T051+5QCGLBQb8id3hdvIW8+zeFV2FyBGFS9IEK5H9Wt4MueD4bW1eWikpHgZp+5xR3l5c8pZUkQsIA0BFZg==
+  dependencies:
+    invert-kv "^3.0.0"
 
 levn@^0.4.1:
   version "0.4.1"
@@ -2790,6 +2846,13 @@ optionator@^0.9.3:
     prelude-ls "^1.2.1"
     type-check "^0.4.0"
     word-wrap "^1.2.5"
+
+os-locale@^6.0.2:
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/os-locale/-/os-locale-6.0.2.tgz#2e5122600f48cd9b846524c07f898db1c596bf20"
+  integrity sha512-qIb8bzRqaN/vVqEYZ7lTAg6PonskO7xOmM7OClD28F6eFa4s5XGe4bGpHUHMoCHbNNuR0pDYFeSLiW5bnjWXIA==
+  dependencies:
+    lcid "^3.1.1"
 
 own-keys@^1.0.1:
   version "1.0.1"
@@ -3560,3 +3623,8 @@ yocto-queue@^0.1.0:
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/zod/-/zod-4.3.5.tgz#aeb269a6f9fc259b1212c348c7c5432aaa474d2a"
   integrity sha512-k7Nwx6vuWx1IJ9Bjuf4Zt1PEllcwe7cls3VNzm4CQ1/hgtFUK2bRNG3rvnpPUhFjmqJKAKtjV576KnUkHocg/g==
+
+zustand@^5.0.11:
+  version "5.0.11"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-5.0.11.tgz#99f912e590de1ca9ce6c6d1cab6cdb1f034ab494"
+  integrity sha512-fdZY+dk7zn/vbWNCYmzZULHRrss0jx5pPFiOuMZ/5HJN6Yv3u+1Wswy/4MpZEkEGhtNH+pwxZB8OKgUBPzYAGg==
