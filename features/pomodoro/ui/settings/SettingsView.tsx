@@ -2,9 +2,17 @@ import { ChevronLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
+import { DetailEditor } from './DetailEditor';
 import { DurationsTab } from './DurationsTab';
 import { NotificationsTab } from './NotificationsTab';
 import { PanelStack, SegmentedControl } from '@/shared/ui';
+
+export type TDetailView =
+  | 'work'
+  | 'shortBreak'
+  | 'longBreak'
+  | 'cyclesBeforeLongBreak'
+  | null;
 
 type TSettingsViewProps = {
   onBack: () => void;
@@ -15,12 +23,19 @@ const SETTINGS_TABS: TSettingsTab[] = ['durations', 'notifications'];
 
 export const SettingsView = ({ onBack }: TSettingsViewProps) => {
   const [activeTab, setActiveTab] = useState<TSettingsTab>('durations');
+  const [activeDetail, setActiveDetail] = useState<TDetailView>(null);
   const t = useTranslations('pomodoro.settings');
 
   const items = [
     { id: 'durations', label: t('durations') },
     { id: 'notifications', label: t('notifications') },
   ] as const;
+
+  if (activeDetail) {
+    return (
+      <DetailEditor type={activeDetail} onBack={() => setActiveDetail(null)} />
+    );
+  }
 
   return (
     <div className="flex h-full flex-col items-center justify-center gap-4">
@@ -46,7 +61,8 @@ export const SettingsView = ({ onBack }: TSettingsViewProps) => {
         view={activeTab}
         views={SETTINGS_TABS}
         render={v => {
-          if (v === 'durations') return <DurationsTab />;
+          if (v === 'durations')
+            return <DurationsTab onSelectDetail={setActiveDetail} />;
           return <NotificationsTab />;
         }}
       />
