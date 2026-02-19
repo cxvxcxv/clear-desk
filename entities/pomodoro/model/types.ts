@@ -7,6 +7,12 @@ export interface IPomodoroState {
   completedCycles: number;
 }
 
+export type TDetailView =
+  | 'work'
+  | 'shortBreak'
+  | 'longBreak'
+  | 'cyclesBeforeLongBreak';
+
 export interface IPomodoroSettings {
   workMinutes: number;
   shortBreakMinutes: number;

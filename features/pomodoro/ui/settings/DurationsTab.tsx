@@ -2,40 +2,56 @@
 
 import { ChevronRight } from 'lucide-react';
 
-import { TDetailView } from './SettingsView';
-import { usePomodoroSettings } from '@/entities/pomodoro';
+import {
+  POMODORO_SETTING_SCHEMAS,
+  TDetailView,
+  usePomodoroSettings,
+} from '@/entities/pomodoro';
 
-type TDurationsTabProps = {
-  onSelectDetail: (v: TDetailView) => void;
-};
-
-export const DurationsTab = ({ onSelectDetail }: TDurationsTabProps) => {
+const SettingRow = ({
+  id,
+  onSelect,
+}: {
+  id: TDetailView;
+  onSelect: (v: TDetailView) => void;
+}) => {
   const settings = usePomodoroSettings();
-
-  const items = [
-    { id: 'work', label: 'Work', val: settings.workMinutes },
-    { id: 'shortBreak', label: 'Short Break', val: settings.shortBreakMinutes },
-    { id: 'longBreak', label: 'Long Break', val: settings.longBreakMinutes },
-    {
-      id: 'cyclesBeforeLongBreak',
-      label: 'Sessions until long break',
-      val: settings.cyclesBeforeLongBreak,
-    },
-  ] as const;
+  const config = POMODORO_SETTING_SCHEMAS[id];
+  const value = settings[config.key as keyof typeof settings];
 
   return (
-    <div role="tabpanel" className="flex flex-col gap-4 px-24 text-sm">
-      {items.map(item => (
-        <button
-          key={item.id}
-          className="flex justify-between"
-          onClick={() => onSelectDetail(item.id)}
-        >
-          <span>{item.label}</span>
-          <span className="flex items-center gap-2 text-lg font-bold">
-            {item.val} <ChevronRight strokeWidth={1.25} />
+    <button
+      onClick={() => onSelect(id)}
+      className="group flex items-center justify-between"
+    >
+      <span className="text-sm font-medium">{config.label}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-lg font-bold tabular-nums">
+          {String(value)}
+          <span className="text-muted-foreground ml-1 text-xs font-normal">
+            {config.unit}
           </span>
-        </button>
+        </span>
+        <ChevronRight
+          size={18}
+          className="text-muted-foreground/30 group-hover:text-muted-foreground transition-colors"
+        />
+      </div>
+    </button>
+  );
+};
+
+export const DurationsTab = ({
+  onSelectDetail,
+}: {
+  onSelectDetail: (v: TDetailView) => void;
+}) => {
+  const settingKeys = Object.keys(POMODORO_SETTING_SCHEMAS) as TDetailView[];
+
+  return (
+    <div role="tabpanel" className="flex flex-col gap-4 px-6">
+      {settingKeys.map(key => (
+        <SettingRow key={key} id={key} onSelect={onSelectDetail} />
       ))}
     </div>
   );

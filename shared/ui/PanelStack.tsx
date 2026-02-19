@@ -20,7 +20,7 @@ export function PanelStack<T extends string>({
         style={{ transform: `translateX(-${index * 100}%)` }}
       >
         {views.map(v => (
-          <div key={v} className="w-full shrink-0" inert={v !== view}>
+          <div key={v} className="h-full w-full shrink-0" inert={v !== view}>
             {render(v)}
           </div>
         ))}

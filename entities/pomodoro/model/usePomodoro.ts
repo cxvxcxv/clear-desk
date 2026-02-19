@@ -87,6 +87,21 @@ export const usePomodoro = () => {
     stateRef.current = state;
   }, [state]);
 
+  // Update remaining seconds when settings change (only if timer is paused)
+  useEffect(() => {
+    if (state.isRunning) return;
+
+    const newDuration = minutesToSeconds(
+      state.phase === 'work'
+        ? settings.workMinutes
+        : state.phase === 'shortBreak'
+          ? settings.shortBreakMinutes
+          : settings.longBreakMinutes,
+    );
+
+    dispatch({ type: 'SYNC_TIME', remainingSeconds: newDuration });
+  }, [settings, state.phase, state.isRunning]);
+
   useEffect(() => {
     if (!state.isRunning) return;
 

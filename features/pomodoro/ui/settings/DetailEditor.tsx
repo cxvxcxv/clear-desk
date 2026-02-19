@@ -1,60 +1,86 @@
 'use client';
 
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Minus, Plus } from 'lucide-react';
 
-import { TDetailView } from './SettingsView';
-import { usePomodoroSettings } from '@/entities/pomodoro';
+import {
+  POMODORO_SETTING_SCHEMAS,
+  TDetailView,
+  usePomodoroSettings,
+} from '@/entities/pomodoro';
 
-type TDetailEditorProps = {
+export const DetailEditor = ({
+  type,
+  onBack,
+}: {
   type: TDetailView;
   onBack: () => void;
-};
-
-export const DetailEditor = ({ type, onBack }: TDetailEditorProps) => {
-  const config = {
-    work: { key: 'workMinutes', label: 'Work Duration' },
-    shortBreak: { key: 'shortBreakMinutes', label: 'Short Break' },
-    longBreak: { key: 'longBreakMinutes', label: 'Long Break' },
-    cyclesBeforeLongBreak: { key: 'cyclesBeforeLongBreak', label: 'Cycles' },
-  }[type!];
-
+}) => {
   const settings = usePomodoroSettings();
+  const schema = POMODORO_SETTING_SCHEMAS[type];
+  const value = settings[schema.key as keyof typeof settings] as number;
 
-  const value = settings[config.key as keyof typeof settings] as number;
+  const update = (step: number) =>
+    settings.updateSettings({ [schema.key]: value + step });
 
   return (
-    <div className="flex h-full flex-col justify-center">
+    <div className="relative flex h-full flex-col items-center justify-center px-6">
       <button
         onClick={onBack}
-        className="flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
+        className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
       >
-        <ChevronLeft className="h-4 w-4" /> Back
+        <ChevronLeft size={16} /> Back
       </button>
-      <div className="flex flex-col items-center gap-6">
-        <span className="text-muted text-sm font-medium tracking-widest uppercase">
-          {config.label}
-        </span>
-        <div className="flex items-center gap-8">
-          <button
-            className="flex h-12 w-12 items-center justify-center rounded-full border-2 text-2xl transition-transform active:scale-90"
-            onClick={() =>
-              settings.updateSettings({ [config.key]: Math.max(1, value - 1) })
-            }
-          >
-            –
-          </button>
-          <span className="text-6xl font-bold tabular-nums">{value}</span>
-          <button
-            className="flex h-12 w-12 items-center justify-center rounded-full border-2 text-2xl transition-transform active:scale-90"
-            onClick={() => settings.updateSettings({ [config.key]: value + 1 })}
-          >
-            +
-          </button>
+
+      <div className="flex flex-col items-center gap-8 text-center">
+        <h2 className="text-muted-foreground text-xs font-bold tracking-widest uppercase">
+          {schema.label}
+        </h2>
+
+        <div className="flex items-center gap-10">
+          <ControlButton
+            onClick={() => update(-1)}
+            disabled={value <= schema.min}
+            icon={<Minus size={24} />}
+          />
+
+          <div className="flex flex-col">
+            <span className="text-7xl leading-none font-black tabular-nums">
+              {value}
+            </span>
+            <span className="text-muted-foreground mt-2 text-[10px] font-bold tracking-[0.2em] uppercase">
+              {schema.unit}
+            </span>
+          </div>
+
+          <ControlButton
+            onClick={() => update(1)}
+            disabled={value >= schema.max}
+            icon={<Plus size={24} />}
+          />
         </div>
-        <span className="text-muted text-sm font-medium tracking-widest">
-          min
-        </span>
+
+        <p className="text-muted-foreground max-w-xs text-xs leading-relaxed opacity-80">
+          {schema.description}
+        </p>
       </div>
     </div>
   );
 };
+
+const ControlButton = ({
+  onClick,
+  disabled,
+  icon,
+}: {
+  onClick: () => void;
+  disabled: boolean;
+  icon: React.ReactNode;
+}) => (
+  <button
+    disabled={disabled}
+    onClick={onClick}
+    className="flex h-14 w-14 items-center justify-center rounded-full border-2 transition-all active:scale-90 disabled:opacity-20"
+  >
+    {icon}
+  </button>
+);
