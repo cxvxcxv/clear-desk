@@ -6,8 +6,8 @@ import {
 } from '@/shared/types';
 
 // generic range builder
-//  T = The Settings Object (e.g. IPomodoroSettings)
-//  K = The valid keys for numbers in that object
+//  T = the settings object
+//  K = the valid keys for numbers in that object
 
 export function createRange<T, K extends keyof T>(
   key: K,

@@ -55,4 +55,4 @@ export interface ISettingsSection<T> {
 }
 
 // helper type to get value type for a specific key
-export type GetSettingValueType<T, K extends keyof T> = T[K];
+export type TGetSettingValueType<T, K extends keyof T> = T[K];
