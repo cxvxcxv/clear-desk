@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useMemo, useReducer, useRef } from 'react';
 
 import { minutesToSeconds } from '../lib';
 
@@ -8,15 +8,19 @@ import { usePomodoroSettings } from './store';
 import { IPomodoroSettings, IPomodoroState, TPomodoroPhase } from './types';
 
 type TAction =
-  | { type: 'NEXT_PHASE'; settings: IPomodoroSettings }
+  | { type: 'TICK' }
   | { type: 'TOGGLE' }
   | { type: 'RESET'; settings: IPomodoroSettings }
-  | { type: 'SYNC_TIME'; remainingSeconds: number };
-
-// reducer
+  | { type: 'NEXT_PHASE'; settings: IPomodoroSettings };
 
 function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
   switch (action.type) {
+    case 'TICK':
+      return {
+        ...state,
+        remainingSeconds: Math.max(0, state.remainingSeconds - 1),
+      };
+
     case 'TOGGLE':
       return { ...state, isRunning: !state.isRunning };
 
@@ -27,9 +31,6 @@ function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
         isRunning: false,
         completedCycles: 0,
       };
-
-    case 'SYNC_TIME':
-      return { ...state, remainingSeconds: action.remainingSeconds };
 
     case 'NEXT_PHASE': {
       const isWorkEnding = state.phase === 'work';
@@ -57,6 +58,7 @@ function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
         phase: nextPhase,
         completedCycles: newCycles,
         remainingSeconds: minutesToSeconds(durations[nextPhase]),
+        isRunning: state.isRunning,
       };
     }
 
@@ -65,9 +67,9 @@ function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
   }
 }
 
-// hook
 export const usePomodoro = () => {
   const settings = usePomodoroSettings();
+  const workerRef = useRef<Worker | null>(null);
 
   const [state, dispatch] = useReducer(reducer, {
     phase: 'work',
@@ -76,49 +78,49 @@ export const usePomodoro = () => {
     completedCycles: 0,
   });
 
-  const settingsRef = useRef(settings);
-  const stateRef = useRef(state);
-
+  // init worker
   useEffect(() => {
-    settingsRef.current = settings;
-  }, [settings]);
+    const worker = new Worker(new URL('./timer.worker.ts', import.meta.url)); // use relative path - safe for bundler
 
+    worker.onmessage = (e: MessageEvent) => {
+      if (e.data === 'TICK') dispatch({ type: 'TICK' });
+    };
+
+    workerRef.current = worker;
+    return () => worker.terminate();
+  }, []);
+
+  // contorl worker based on state
   useEffect(() => {
-    stateRef.current = state;
-  }, [state]);
+    if (state.isRunning && state.remainingSeconds > 0) {
+      workerRef.current?.postMessage({ cmd: 'START' });
+    } else {
+      workerRef.current?.postMessage({ cmd: 'STOP' });
+    }
+  }, [state.isRunning, state.remainingSeconds]);
 
+  // switch phase when timer hits zero
   useEffect(() => {
-    if (!state.isRunning) return;
+    if (state.remainingSeconds === 0 && state.isRunning) {
+      dispatch({ type: 'NEXT_PHASE', settings });
+    }
+  }, [state.remainingSeconds, state.isRunning, settings]);
 
-    const startTime = Date.now();
-    const secondsAtStart = stateRef.current.remainingSeconds;
-
-    const interval = setInterval(() => {
-      const elapsedMs = Date.now() - startTime;
-      const elapsedSec = Math.floor(elapsedMs / 1000);
-      const newRemaining = Math.max(0, secondsAtStart - elapsedSec);
-
-      if (newRemaining > 0) {
-        dispatch({ type: 'SYNC_TIME', remainingSeconds: newRemaining });
-      } else {
-        dispatch({ type: 'NEXT_PHASE', settings: settingsRef.current });
-      }
-    }, 200); // synchronizing time every 200ms
-
-    return () => clearInterval(interval);
-  }, [state.isRunning, state.phase]);
+  // derived values for the ui
+  const totalSeconds = useMemo(() => {
+    const map = {
+      work: settings.workMinutes,
+      shortBreak: settings.shortBreakMinutes,
+      longBreak: settings.longBreakMinutes,
+    };
+    return minutesToSeconds(map[state.phase]);
+  }, [state.phase, settings]);
 
   return {
     ...state,
-    totalSeconds: minutesToSeconds(
-      state.phase === 'work'
-        ? settings.workMinutes
-        : state.phase === 'shortBreak'
-          ? settings.shortBreakMinutes
-          : settings.longBreakMinutes,
-    ),
+    totalSeconds,
     toggleTimer: () => dispatch({ type: 'TOGGLE' }),
-    resetTimer: () => dispatch({ type: 'RESET', settings: settings }),
-    skipCycle: () => dispatch({ type: 'NEXT_PHASE', settings: settings }),
+    resetTimer: () => dispatch({ type: 'RESET', settings }),
+    skipCycle: () => dispatch({ type: 'NEXT_PHASE', settings }),
   };
 };

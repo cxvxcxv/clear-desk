@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 
 import { TPomodoroPhase, usePomodoroSettings } from '@/entities/pomodoro';
@@ -14,12 +16,12 @@ export const usePomodoroSound = (
   isRunning: boolean,
   secondsLeft: number,
 ) => {
+  const { volume, isMuted } = usePomodoroSettings();
+  const [isReady, setIsReady] = useState(false);
+
   const prevPhase = useRef<TPomodoroPhase>(phase);
   const prevIsRunning = useRef<boolean>(isRunning);
-  const [isReady, setIsReady] = useState(false);
-  const { volume, isMuted } = usePomodoroSettings();
 
-  // preload sounds on mount
   useEffect(() => {
     let mounted = true;
 
@@ -38,15 +40,9 @@ export const usePomodoroSound = (
     };
   }, []);
 
-  // handle sound triggers based on state changes
   useEffect(() => {
     if (!isReady || isMuted) return;
 
-    /* 
-      play a sound ONLY if:
-      a) the timer just started (Running changed from false -> true)
-      b) the phase just changed while the timer was ALREADY running
-     */
     const hasStarted = !prevIsRunning.current && isRunning;
     const hasSwitchedPhase = prevPhase.current !== phase && isRunning;
 
@@ -54,31 +50,26 @@ export const usePomodoroSound = (
       if (soundManager.hasBuffer(phase)) {
         soundManager.play(phase, {
           volume: volume / 100,
-          interrupt: true, // stop any previous phase sound immediately
+          interrupt: true,
         });
       } else {
-        // fallback
-        soundManager.playTone(800, 0.5);
+        soundManager.playTone(800);
       }
     }
 
-    // update refs AFTER the logic so they are ready for the NEXT render
     prevPhase.current = phase;
     prevIsRunning.current = isRunning;
   }, [phase, isRunning, isReady, isMuted, volume]);
 
-  // stop all sounds if this specific hook/component unmounts
   useEffect(() => {
-    return () => {
-      soundManager.stopAll();
-    };
+    const isEnding = secondsLeft <= 10 && secondsLeft > 0;
+
+    if (isReady && isRunning && isEnding && !isMuted) {
+      soundManager.playTone(500, 0.1);
+    }
+  }, [secondsLeft, isRunning, isReady, isMuted]);
+
+  useEffect(() => {
+    return () => soundManager.stopAll();
   }, []);
-
-  useEffect(() => {
-    // only tick if the timer is running, the engine is ready
-    const shouldTick =
-      isReady && isRunning && secondsLeft <= 10 && secondsLeft > 0;
-
-    if (shouldTick) soundManager.playTone(500);
-  }, [secondsLeft, isRunning, isReady]);
 };
