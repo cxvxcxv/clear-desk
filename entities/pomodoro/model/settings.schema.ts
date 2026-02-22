@@ -1,50 +1,70 @@
-import { TDetailView } from './types';
+import { IPomodoroSettings } from './types';
+import { createRange, createSelect, createToggle } from '@/shared/lib';
+import { ISettingsSection } from '@/shared/types';
 
-export interface ISettingConfig {
-  key: string;
-  label: string;
-  unit: string;
-  min: number;
-  max: number;
-  step: number;
-  description?: string;
-}
-
-export const POMODORO_SETTING_SCHEMAS: Record<TDetailView, ISettingConfig> = {
-  work: {
-    key: 'workMinutes',
-    label: 'Work Duration',
-    unit: 'min',
-    min: 1,
-    max: 60,
-    step: 1,
-    description: 'The time you will focus on your task.',
+export const POMODORO_SETTINGS_SCHEMA: Record<
+  string,
+  ISettingsSection<IPomodoroSettings>
+> = {
+  durations: {
+    id: 'durations',
+    title: 'Durations',
+    items: [
+      createRange('workMinutes', {
+        label: 'Work',
+        min: 1,
+        max: 60,
+        step: 1,
+        unit: 'min',
+        description: 'Duration of work sessions',
+      }),
+      createRange('shortBreakMinutes', {
+        label: 'Short Break',
+        min: 1,
+        max: 30,
+        step: 1,
+        unit: 'min',
+        description: 'Duration of short breaks',
+      }),
+      createRange('longBreakMinutes', {
+        label: 'Long Break',
+        min: 5,
+        max: 60,
+        step: 1,
+        unit: 'min',
+        description: 'Duration of long breaks',
+      }),
+      createRange('cyclesBeforeLongBreak', {
+        label: 'Cycles Before Long Break',
+        min: 2,
+        max: 10,
+        step: 1,
+        unit: 'cycles',
+        description: 'Number of work cycles before a long break',
+      }),
+    ],
   },
-  shortBreak: {
-    key: 'shortBreakMinutes',
-    label: 'Short Break',
-    unit: 'min',
-    min: 1,
-    max: 60,
-    step: 1,
-    description: 'A brief rest to recharge.',
-  },
-  longBreak: {
-    key: 'longBreakMinutes',
-    label: 'Long Break',
-    unit: 'min',
-    min: 10,
-    max: 60,
-    step: 1,
-    description: 'A longer break after several cycles.',
-  },
-  cyclesBeforeLongBreak: {
-    key: 'cyclesBeforeLongBreak',
-    label: 'Long Break After',
-    unit: 'sets',
-    min: 1,
-    max: 10,
-    step: 1,
-    description: 'Number of work sessions before a long break.',
+  notifications: {
+    id: 'notifications',
+    title: 'Notifications',
+    items: [
+      createToggle('isMuted', {
+        label: 'Mute Sounds',
+        description: 'Disable sound notifications',
+      }),
+      createRange('volume', {
+        label: 'Volume',
+        min: 0,
+        max: 100,
+        step: 10,
+        unit: '%',
+        description: 'Notification volume level',
+      }),
+      createSelect('soundPack', {
+        label: 'Sound Pack',
+        options: [{ label: 'Default', value: 'default' }],
+        description: 'Select your sound pack',
+      }),
+    ],
   },
 };

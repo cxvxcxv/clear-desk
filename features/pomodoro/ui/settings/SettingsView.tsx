@@ -7,10 +7,11 @@ import { useState } from 'react';
 import { DetailEditor } from './DetailEditor';
 import { DurationsTab } from './DurationsTab';
 import { NotificationsTab } from './NotificationsTab';
-import { TDetailView } from '@/entities/pomodoro';
+import { IPomodoroSettings } from '@/entities/pomodoro';
 import { PanelStack, SegmentedControl } from '@/shared/ui';
 
 type TSettingsTab = 'durations' | 'notifications';
+type TDetailView = keyof IPomodoroSettings;
 
 export const SettingsView = ({ onBack }: { onBack: () => void }) => {
   const [activeTab, setActiveTab] = useState<TSettingsTab>('durations');
@@ -19,7 +20,6 @@ export const SettingsView = ({ onBack }: { onBack: () => void }) => {
   );
   const t = useTranslations('pomodoro.settings');
 
-  // Handle Detail View Overlay
   if (activeDetailView) {
     return (
       <DetailEditor

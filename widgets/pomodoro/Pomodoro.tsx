@@ -2,9 +2,7 @@
 
 import { useState } from 'react';
 
-import { TimerView } from '../../features/pomodoro/ui/TimerView';
-import { SettingsView } from '../../features/pomodoro/ui/settings/SettingsView';
-
+import { SettingsView, TimerView } from '@/features/pomodoro';
 import { PanelStack } from '@/shared/ui';
 
 type TRootView = 'timer' | 'settings';

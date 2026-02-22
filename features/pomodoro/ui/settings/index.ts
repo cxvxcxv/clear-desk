@@ -1,3 +1,2 @@
-export * from './DurationsTab';
-export * from './NotificationsTab';
-export * from './SettingsView';
+// Public API - only export main settings view
+export { SettingsView } from './SettingsView';

@@ -18,7 +18,7 @@ export const Clock = () => {
       <time dateTime={timeISO} className="font-mono text-2xl">
         {timeString}
       </time>
-      <time dateTime={dateISO} className="text-muted-foreground text-sm">
+      <time dateTime={dateISO} className="text-muted text-sm">
         {dateString}
       </time>
     </div>

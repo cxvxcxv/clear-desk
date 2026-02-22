@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { TPomodoroPhase } from '@/entities/pomodoro';
+import { TPomodoroPhase, usePomodoroSettings } from '@/entities/pomodoro';
 import { soundManager } from '@/shared/sound';
 
-const PHASE_SOUND_CONFIG: Record<
-  TPomodoroPhase,
-  { file: string; volume: number }
-> = {
-  work: { file: 'work-start.mp3', volume: 0.8 },
-  shortBreak: { file: 'short-break-start.mp3', volume: 1.0 },
-  longBreak: { file: 'long-break-start.mp3', volume: 1.0 },
+const PHASE_SOUND_CONFIG: Record<TPomodoroPhase, { file: string }> = {
+  work: { file: 'work-start.mp3' },
+  shortBreak: { file: 'short-break-start.mp3' },
+  longBreak: { file: 'long-break-start.mp3' },
 };
 
 export const usePomodoroSound = (
@@ -20,6 +17,7 @@ export const usePomodoroSound = (
   const prevPhase = useRef<TPomodoroPhase>(phase);
   const prevIsRunning = useRef<boolean>(isRunning);
   const [isReady, setIsReady] = useState(false);
+  const { volume, isMuted } = usePomodoroSettings();
 
   // preload sounds on mount
   useEffect(() => {
@@ -42,7 +40,7 @@ export const usePomodoroSound = (
 
   // handle sound triggers based on state changes
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || isMuted) return;
 
     /* 
       play a sound ONLY if:
@@ -55,7 +53,7 @@ export const usePomodoroSound = (
     if (hasStarted || hasSwitchedPhase) {
       if (soundManager.hasBuffer(phase)) {
         soundManager.play(phase, {
-          volume: PHASE_SOUND_CONFIG[phase].volume,
+          volume: volume / 100,
           interrupt: true, // stop any previous phase sound immediately
         });
       } else {
@@ -67,7 +65,7 @@ export const usePomodoroSound = (
     // update refs AFTER the logic so they are ready for the NEXT render
     prevPhase.current = phase;
     prevIsRunning.current = isRunning;
-  }, [phase, isRunning, isReady]);
+  }, [phase, isRunning, isReady, isMuted, volume]);
 
   // stop all sounds if this specific hook/component unmounts
   useEffect(() => {
