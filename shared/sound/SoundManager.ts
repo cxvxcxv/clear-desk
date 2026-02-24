@@ -6,6 +6,7 @@ export class SoundManager {
   private activeSources = new Map<string, Set<AudioBufferSourceNode>>(); // map of categories -> set of active sound instances
   private muted = false; // toggle for master silence
   private volume = 1; // persistent volume level memory
+  private scheduledOscillators: OscillatorNode[] = [];
 
   async init() {
     if (this.ctx) return; // prevent duplicate engine creation
@@ -222,6 +223,25 @@ export class SoundManager {
     osc.stop(now + dur + 0.02); // stop oscillator slightly after the volume hits zero to ensure fade-out effect
   }
 
+  playTickAt(time: number, freq = 440): void {
+    if (!this.ctx || !this.masterGain || this.muted) return;
+
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.frequency.value = freq;
+    osc.connect(gain);
+    gain.connect(this.masterGain);
+
+    const dur = 0.05;
+    gain.gain.setValueAtTime(0.001, time);
+    gain.gain.exponentialRampToValueAtTime(0.4, time + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
+
+    osc.start(time);
+    osc.stop(time + dur + 0.02);
+  }
+
   setMuted(v: boolean) {
     this.muted = v;
     if (this.masterGain) {
@@ -235,6 +255,11 @@ export class SoundManager {
     if (!this.muted && this.masterGain) {
       this.masterGain.gain.value = this.volume;
     }
+  }
+
+  // helper to get the current hardware time
+  getAudioTime(): number {
+    return this.ctx?.currentTime ?? 0;
   }
 
   getLoadedNames(): string[] {
