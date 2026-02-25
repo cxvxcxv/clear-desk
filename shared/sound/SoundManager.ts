@@ -4,9 +4,11 @@ export class SoundManager {
   private buffers = new Map<string, AudioBuffer>(); // decoded ready-to-play audio data
   private inFlightLoads = new Map<string, Promise<boolean>>(); // dedupe tracker for active downloads
   private activeSources = new Map<string, Set<AudioBufferSourceNode>>(); // map of categories -> set of active sound instances
+  private warmupBuffer: AudioBuffer | null = null; // warmup audio data (white noise)
   private muted = false; // toggle for master silence
   private volume = 1; // persistent volume level memory
-  private scheduledOscillators: OscillatorNode[] = [];
+
+  // --- INIT & CORE LIFECYCLE ---
 
   async init() {
     if (this.ctx) return; // prevent duplicate engine creation
@@ -14,6 +16,13 @@ export class SoundManager {
     this.masterGain = this.ctx.createGain();
     this.masterGain.connect(this.ctx.destination); // connect to output device
     this.masterGain.gain.value = 1;
+
+    // pre-generate the stealth buffer once
+    const size = this.ctx.sampleRate * 0.1;
+    this.warmupBuffer = this.ctx.createBuffer(1, size, this.ctx.sampleRate);
+    const data = this.warmupBuffer.getChannelData(0);
+    for (let i = 0; i < size; i++) data[i] = Math.random() * 2 - 1;
+
     this.attachResumeOnGesture();
   }
 
@@ -26,6 +35,28 @@ export class SoundManager {
     };
     window.addEventListener('pointerdown', resume, { once: true }); // delete listener after triggered once
   }
+
+  // completely shut down the audio engine
+  async dispose() {
+    try {
+      this.stopAll();
+      this.buffers.clear(); // remove everything from sound buffer array
+      this.warmupBuffer = null;
+      if (this.ctx) {
+        try {
+          await this.ctx.close(); // physically release audio hardware back to the os
+        } catch (e) {
+          console.log(e);
+        }
+      }
+    } finally {
+      this.ctx = null;
+      this.masterGain = null;
+      this.activeSources.clear();
+    }
+  }
+
+  // --- ASSET LOADING ---
 
   async load(name: string, url: string): Promise<boolean> {
     // prevent downloading the same audio multiple times
@@ -62,11 +93,36 @@ export class SoundManager {
     return promise;
   }
 
+  // remove a specific sound from memory
+  unload(name: string) {
+    this.stop(name);
+    this.buffers.delete(name); // free up the ram used by the decoded audio
+  }
+
+  // hardware warmup
+  async stealthWarmup(): Promise<void> {
+    await this.init();
+    if (!this.ctx || !this.masterGain || !this.warmupBuffer) return;
+    if (this.ctx.state === 'suspended') await this.ctx.resume();
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = this.warmupBuffer;
+
+    const stealthGain = this.ctx.createGain();
+    stealthGain.gain.value = 0.00001;
+
+    noise.connect(stealthGain);
+    stealthGain.connect(this.masterGain);
+    noise.start();
+  }
+
+  // --- PLAYBACK CONTROLS ---
+
   async play(
     name: string,
-    options?: { when?: number; interrupt?: boolean; volume?: number },
+    options?: { playAfter?: number; interrupt?: boolean; volume?: number },
   ): Promise<boolean> {
-    const when = options?.when ?? 0;
+    const when = options?.playAfter ?? 0;
     const interrupt = options?.interrupt ?? true;
     const volume = options?.volume;
 
@@ -140,6 +196,44 @@ export class SoundManager {
     });
   }
 
+  // synthesizes a sound using oscillator (for fallbacks)
+  playTone(
+    freq: number,
+    volume: number = this.volume,
+    dur = 0.25,
+    playAfter: number = 0,
+  ) {
+    // assume that init() was called during preload or warmup
+    if (
+      !this.ctx ||
+      this.ctx.state !== 'running' ||
+      this.muted ||
+      !this.masterGain
+    )
+      return;
+
+    const osc = this.ctx.createOscillator();
+    const g = this.ctx.createGain();
+
+    osc.frequency.value = freq;
+    g.gain.value = 0.001;
+
+    const targetVolume = Math.max(0.0001, volume); // ensure the volume is not 0 for exponential math
+
+    osc.connect(g);
+    g.connect(this.masterGain);
+
+    const playAt = this.ctx.currentTime + playAfter;
+
+    // exponential ramps: prevents harsh speaker 'pops' and sounds more natural to human ears
+    g.gain.setValueAtTime(0.001, playAt); // start at almost 0 volume now
+    g.gain.exponentialRampToValueAtTime(targetVolume, playAt + 0.01); // slide up the volume to the targetVolume over the next 0.01 sec
+    g.gain.exponentialRampToValueAtTime(0.001, playAt + dur); // slide back the volume to almost 0 over the tone duration
+
+    osc.start(playAt);
+    osc.stop(playAt + dur + 0.02); // stop oscillator slightly after the volume hits zero to ensure fade-out effect
+  }
+
   // stop all active instances of a specific sound by name
   stop(name: string) {
     // retrieve the set containing all active 'record player' nodes for this sound
@@ -165,82 +259,7 @@ export class SoundManager {
     }
   }
 
-  // remove a specific sound from memory
-  unload(name: string) {
-    this.stop(name);
-    this.buffers.delete(name); // free up the ram used by the decoded audio
-  }
-
-  // completely shut down the audio engine
-  async dispose() {
-    try {
-      this.stopAll();
-      this.buffers.clear(); // remove everything from sound buffer array
-      if (this.ctx) {
-        try {
-          await this.ctx.close(); // physically release audio hardware back to the os
-        } catch (e) {
-          console.log(e);
-        }
-      }
-    } finally {
-      this.ctx = null;
-      this.masterGain = null;
-      this.activeSources.clear();
-    }
-  }
-
-  // synthesizes a sound using oscillator (for fallbacks)
-  async playTone(freq: number, dur = 0.25) {
-    await this.init();
-
-    if (this.muted || !this.ctx || !this.masterGain) return;
-
-    // wake up the audio clock if the browser put it to sleep
-    try {
-      if (this.ctx.state === 'suspended') await this.ctx.resume();
-    } catch (e) {
-      console.error('SoundManager.playTone resume error', e);
-    }
-
-    const osc = this.ctx.createOscillator();
-    const g = this.ctx.createGain();
-
-    osc.frequency.value = freq;
-    g.gain.value = 0.001;
-
-    osc.connect(g);
-    g.connect(this.masterGain);
-
-    const now = this.ctx.currentTime;
-
-    // exponential ramps: prevents harsh speaker 'pops' and sounds more natural to human ears
-    g.gain.setValueAtTime(0.001, now); // start at almost 0 volume now
-    g.gain.exponentialRampToValueAtTime(0.5, now + 0.01); // slide up the volume to 50% over the next 0.01 sec
-    g.gain.exponentialRampToValueAtTime(0.001, now + dur); // slide back the volume to almost 0 over the tone duration
-
-    osc.start(now);
-    osc.stop(now + dur + 0.02); // stop oscillator slightly after the volume hits zero to ensure fade-out effect
-  }
-
-  playTickAt(time: number, freq = 440): void {
-    if (!this.ctx || !this.masterGain || this.muted) return;
-
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-
-    osc.frequency.value = freq;
-    osc.connect(gain);
-    gain.connect(this.masterGain);
-
-    const dur = 0.05;
-    gain.gain.setValueAtTime(0.001, time);
-    gain.gain.exponentialRampToValueAtTime(0.4, time + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.001, time + dur);
-
-    osc.start(time);
-    osc.stop(time + dur + 0.02);
-  }
+  // --- SETTINGS & GETTERS ---
 
   setMuted(v: boolean) {
     this.muted = v;
@@ -255,11 +274,6 @@ export class SoundManager {
     if (!this.muted && this.masterGain) {
       this.masterGain.gain.value = this.volume;
     }
-  }
-
-  // helper to get the current hardware time
-  getAudioTime(): number {
-    return this.ctx?.currentTime ?? 0;
   }
 
   getLoadedNames(): string[] {

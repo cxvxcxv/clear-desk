@@ -14,7 +14,7 @@ const DEFAULT_SETTINGS: IPomodoroSettings = {
   longBreakMinutes: 15,
   cyclesBeforeLongBreak: 4,
   isMuted: false,
-  volume: 0.8,
+  volume: 100,
   soundPack: 'default',
 };
 

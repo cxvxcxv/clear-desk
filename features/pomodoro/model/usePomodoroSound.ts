@@ -2,14 +2,13 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { TPomodoroPhase, usePomodoroSettings } from '@/entities/pomodoro';
+import {
+  COUNTDOWN_THRESHOLD,
+  PHASE_SOUND_CONFIG,
+  TPomodoroPhase,
+  usePomodoroSettings,
+} from '@/entities/pomodoro';
 import { soundManager } from '@/shared/sound';
-
-const PHASE_SOUND_CONFIG: Record<TPomodoroPhase, { file: string }> = {
-  work: { file: 'work-start.mp3' },
-  shortBreak: { file: 'short-break-start.mp3' },
-  longBreak: { file: 'long-break-start.mp3' },
-};
 
 export const usePomodoroSound = (
   phase: TPomodoroPhase,
@@ -22,6 +21,7 @@ export const usePomodoroSound = (
   const prevPhase = useRef<TPomodoroPhase>(phase);
   const prevIsRunning = useRef<boolean>(isRunning);
 
+  // preload all phase transition sounds on mount
   useEffect(() => {
     let mounted = true;
 
@@ -29,7 +29,6 @@ export const usePomodoroSound = (
       const loadPromises = Object.entries(PHASE_SOUND_CONFIG).map(
         ([name, config]) => soundManager.load(name, `/sounds/${config.file}`),
       );
-
       await Promise.all(loadPromises);
       if (mounted) setIsReady(true);
     };
@@ -40,6 +39,7 @@ export const usePomodoroSound = (
     };
   }, []);
 
+  // play phase transition sound when timer starts or phase changes
   useEffect(() => {
     if (!isReady || isMuted) return;
 
@@ -48,12 +48,9 @@ export const usePomodoroSound = (
 
     if (hasStarted || hasSwitchedPhase) {
       if (soundManager.hasBuffer(phase)) {
-        soundManager.play(phase, {
-          volume: volume / 100,
-          interrupt: true,
-        });
+        soundManager.play(phase, { volume: volume / 100, interrupt: true });
       } else {
-        soundManager.playTone(800);
+        soundManager.playTone(800, volume / 100);
       }
     }
 
@@ -62,14 +59,22 @@ export const usePomodoroSound = (
   }, [phase, isRunning, isReady, isMuted, volume]);
 
   useEffect(() => {
-    const isEnding = secondsLeft <= 10 && secondsLeft > 0;
+    if (!isRunning || isMuted) return;
 
-    if (isReady && isRunning && isEnding && !isMuted) {
-      soundManager.playTone(500, 0.1);
+    // warmup
+    if (secondsLeft === COUNTDOWN_THRESHOLD + 3) {
+      soundManager.stealthWarmup();
     }
-  }, [secondsLeft, isRunning, isReady, isMuted]);
 
+    // tick
+    if (secondsLeft <= COUNTDOWN_THRESHOLD && secondsLeft > 0)
+      soundManager.playTone(400, volume / 100);
+  }, [secondsLeft, isRunning, isMuted, volume]);
+
+  // full cleanup on unmount
   useEffect(() => {
-    return () => soundManager.stopAll();
+    return () => {
+      soundManager.stopAll();
+    };
   }, []);
 };

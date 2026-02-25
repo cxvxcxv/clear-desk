@@ -11,7 +11,8 @@ type TAction =
   | { type: 'TICK' }
   | { type: 'TOGGLE' }
   | { type: 'RESET'; settings: IPomodoroSettings }
-  | { type: 'NEXT_PHASE'; settings: IPomodoroSettings };
+  | { type: 'NEXT_PHASE'; settings: IPomodoroSettings }
+  | { type: 'SYNC_SETTINGS'; settings: IPomodoroSettings };
 
 function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
   switch (action.type) {
@@ -62,6 +63,20 @@ function reducer(state: IPomodoroState, action: TAction): IPomodoroState {
       };
     }
 
+    case 'SYNC_SETTINGS': {
+      if (state.isRunning) return state;
+
+      const durations = {
+        work: action.settings.workMinutes,
+        shortBreak: action.settings.shortBreakMinutes,
+        longBreak: action.settings.longBreakMinutes,
+      };
+
+      return {
+        ...state,
+        remainingSeconds: minutesToSeconds(durations[state.phase]),
+      };
+    }
     default:
       return state;
   }
@@ -77,6 +92,11 @@ export const usePomodoro = () => {
     isRunning: false,
     completedCycles: 0,
   });
+
+  // sync settings on change
+  useEffect(() => {
+    dispatch({ type: 'SYNC_SETTINGS', settings });
+  }, [settings]);
 
   // init worker
   useEffect(() => {
