@@ -15,7 +15,7 @@ const DEFAULT_SETTINGS: IPomodoroSettings = {
   cyclesBeforeLongBreak: 4,
   isMuted: false,
   volume: 100,
-  soundPack: 'default',
+  soundPackId: 'minimal',
 };
 
 export const usePomodoroSettings = create<IPomodoroStore>()(

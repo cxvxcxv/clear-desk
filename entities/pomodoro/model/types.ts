@@ -1,12 +1,20 @@
 import { IRangeSetting, ISelectSetting, IToggleSetting } from '@/shared/types';
 
 export type TPomodoroPhase = 'work' | 'shortBreak' | 'longBreak';
+export type TPomodoroSoundPackId = 'minimal' | 'nature' | 'retro';
 
 export interface IPomodoroState {
   phase: TPomodoroPhase;
   remainingSeconds: number;
   isRunning: boolean;
   completedCycles: number;
+}
+
+export interface IPomodoroSoundPack {
+  id: TPomodoroSoundPackId;
+  name: string;
+  phases: Record<TPomodoroPhase, string>;
+  tickFreq: number;
 }
 
 export interface IPomodoroSettings {
@@ -16,7 +24,7 @@ export interface IPomodoroSettings {
   cyclesBeforeLongBreak: number;
   isMuted: boolean;
   volume: number;
-  soundPack: 'default';
+  soundPackId: TPomodoroSoundPackId;
 }
 
 export type TPomodoroSettingKey = keyof IPomodoroSettings;

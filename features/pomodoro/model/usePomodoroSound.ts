@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import {
   COUNTDOWN_THRESHOLD,
-  PHASE_SOUND_CONFIG,
+  POMODORO_SOUND_PACKS,
   TPomodoroPhase,
   usePomodoroSettings,
 } from '@/entities/pomodoro';
@@ -15,19 +15,22 @@ export const usePomodoroSound = (
   isRunning: boolean,
   secondsLeft: number,
 ) => {
-  const { volume, isMuted } = usePomodoroSettings();
+  const { volume, isMuted, soundPackId } = usePomodoroSettings();
   const [isReady, setIsReady] = useState(false);
 
   const prevPhase = useRef<TPomodoroPhase>(phase);
   const prevIsRunning = useRef<boolean>(isRunning);
+
+  const soundPack = POMODORO_SOUND_PACKS[soundPackId];
 
   // preload all phase transition sounds on mount
   useEffect(() => {
     let mounted = true;
 
     const preload = async () => {
-      const loadPromises = Object.entries(PHASE_SOUND_CONFIG).map(
-        ([name, config]) => soundManager.load(name, `/sounds/${config.file}`),
+      const loadPromises = Object.entries(soundPack.phases).map(
+        ([name, file]) =>
+          soundManager.load(name, `/sounds/pomodoro/${soundPack.id}/${file}`),
       );
       await Promise.all(loadPromises);
       if (mounted) setIsReady(true);
@@ -37,7 +40,7 @@ export const usePomodoroSound = (
     return () => {
       mounted = false;
     };
-  }, []);
+  }, [soundPack.id, soundPack.phases]);
 
   // play phase transition sound when timer starts or phase changes
   useEffect(() => {
