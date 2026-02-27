@@ -9,32 +9,32 @@ export const POMODORO_SOUND_PACKS: Record<
     name: 'Modern Minimal',
     phases: {
       work: 'work-start.mp3',
-      shortBreak: 'break-short-minimal.mp3',
-      longBreak: 'break-long-minimal.mp3',
+      shortBreak: 'short-break-start.mp3',
+      longBreak: 'long-break-start.mp3',
     },
-    tickFreq: 400,
+    tickFreq: 880,
   },
 
   nature: {
     id: 'nature',
-    name: 'Forest Morning',
+    name: 'Forest Nature',
     phases: {
-      work: 'birds-chirp.mp3',
-      shortBreak: 'stream-flow.mp3',
-      longBreak: 'wind-chimes.mp3',
+      work: 'work-start.mp3',
+      shortBreak: 'short-break-start.mp3',
+      longBreak: 'long-break-start.mp3',
     },
-    tickFreq: 400,
+    tickFreq: 440,
   },
 
   retro: {
-    id: 'nature',
-    name: 'Forest Morning',
+    id: 'retro',
+    name: 'Retro Waves',
     phases: {
-      work: 'birds-chirp.mp3',
-      shortBreak: 'stream-flow.mp3',
-      longBreak: 'wind-chimes.mp3',
+      work: 'work-start.mp3',
+      shortBreak: 'short-break-start.mp3',
+      longBreak: 'long-break-start.mp3',
     },
-    tickFreq: 400,
+    tickFreq: 220,
   },
 };
 

@@ -71,8 +71,8 @@ export const usePomodoroSound = (
 
     // tick
     if (secondsLeft <= COUNTDOWN_THRESHOLD && secondsLeft > 0)
-      soundManager.playTone(400, volume / 100);
-  }, [secondsLeft, isRunning, isMuted, volume]);
+      soundManager.playTone(soundPack.tickFreq, volume / 100);
+  }, [secondsLeft, isRunning, isMuted, volume, soundPack.tickFreq]);
 
   // full cleanup on unmount
   useEffect(() => {

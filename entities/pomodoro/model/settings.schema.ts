@@ -1,3 +1,4 @@
+import { POMODORO_SOUND_PACKS } from './constants';
 import { IPomodoroSettings } from './types';
 import { createRange, createSelect, createToggle } from '@/shared/lib';
 import { ISettingsSection } from '@/shared/types';
@@ -60,9 +61,12 @@ export const POMODORO_SETTINGS_SCHEMA: Record<
         unit: '%',
         description: 'Notification volume level',
       }),
-      createSelect('soundPack', {
+      createSelect('soundPackId', {
         label: 'Sound Pack',
-        options: [{ label: 'Default', value: 'default' }],
+        options: Object.values(POMODORO_SOUND_PACKS).map(pack => ({
+          label: pack.name,
+          value: pack.id,
+        })),
         description: 'Select your sound pack',
       }),
     ],
