@@ -8,7 +8,7 @@ export const DashboardGrid = ({ children }: TDashboardGridProps) => {
   return (
     <section
       aria-label="Dashboard widgets"
-      className="grid grid-cols-4 gap-4"
+      className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
       style={{ gridAutoRows: 'minmax(400px, 1fr)' }}
     >
       {children}

@@ -1,6 +1,11 @@
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 
-import { TPomodoroPhase, formatTime } from '@/entities/pomodoro';
+import {
+  COUNTDOWN_THRESHOLD,
+  TPomodoroPhase,
+  formatTime,
+} from '@/entities/pomodoro';
 import { CircularProgress } from '@/shared/ui';
 
 type TTimerDisplayProps = {
@@ -16,9 +21,21 @@ export const TimerDisplay = ({
   phase,
   completedCycles,
 }: TTimerDisplayProps) => {
-  const isEnding = remainingSeconds <= 5;
+  const isEnding = remainingSeconds <= COUNTDOWN_THRESHOLD;
+  const formattedTime = formatTime(remainingSeconds);
+
+  const t = useTranslations();
   return (
-    <div className="relative">
+    <div
+      role="timer"
+      aria-live="polite"
+      aria-atomic
+      aria-label={t('aria.timerStatus', {
+        phase: t(`pomodoro.durations.${phase}`),
+        time: formattedTime,
+      })}
+      className="relative my-auto"
+    >
       <CircularProgress
         value={remainingSeconds / totalSeconds}
         size={180}
@@ -31,13 +48,11 @@ export const TimerDisplay = ({
       <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col gap-1 text-center">
         {phase === 'work' && (
           <span className="text-muted text-xs">
-            cycle {completedCycles + 1}
+            {t('pomodoro.display.cycle')} {completedCycles + 1}
           </span>
         )}
 
-        <span className="font-mono text-4xl tabular-nums">
-          {formatTime(remainingSeconds)}
-        </span>
+        <span className="font-mono text-4xl tabular-nums">{formattedTime}</span>
 
         <span className="text-muted text-sm tracking-widest uppercase">
           {phase}

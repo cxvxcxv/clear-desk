@@ -36,7 +36,7 @@ export type TPomodoroRangeKey =
   | 'cyclesBeforeLongBreak'
   | 'volume';
 export type TPomodoroToggleKey = 'isMuted';
-export type TPomodoroSelectKey = 'soundPack';
+export type TPomodoroSelectKey = 'soundPackId';
 
 export type TPomodoroRangeSettingItem<
   K extends TPomodoroRangeKey = TPomodoroRangeKey,
