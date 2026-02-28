@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import {
   IPomodoroSettings,
@@ -17,6 +18,7 @@ const SettingRow = ({
   onSelect: (v: keyof IPomodoroSettings) => void;
 }) => {
   const settings = usePomodoroSettings();
+  const t = useTranslations();
 
   return (
     <div className="flex flex-col gap-6">
@@ -30,17 +32,18 @@ const SettingRow = ({
           <button
             key={String(item.key)}
             onClick={() => onSelect(item.key)}
+            aria-label={t('aria.')}
             className="group flex items-center justify-between"
           >
-            <span className="text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
-              {item.label}
+            <span className="text-left text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
+              {t(`pomodoro.durations.labels.${item.label}`)}
             </span>
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold tabular-nums">
                 {displayValue}
                 {item.type === 'range' && item.unit && (
                   <span className="text-muted ml-1 text-xs font-normal">
-                    {item.unit}
+                    {t(`pomodoro.durations.units.${item.unit}`)}
                   </span>
                 )}
               </span>

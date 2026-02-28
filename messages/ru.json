@@ -31,6 +31,17 @@
   },
 
   "pomodoro": {
+    "display": {
+      "cycle": "Cycle"
+    },
+
+    "controls": {
+      "start": "Start",
+      "pause": "Pause",
+      "reset": "Reset",
+      "skip": "Skip"
+    },
+
     "settings": {
       "title": "Настройки",
       "back": "Назад",
@@ -41,7 +52,17 @@
     "durations": {
       "work": "Работа",
       "shortBreak": "Короткий перерыв",
-      "longBreak": "Длинный перерыв"
+      "longBreak": "Длинный перерыв",
+      "labels": {
+        "Work": "Работа",
+        "Short Break": "Короткий перерыв",
+        "Long Break": "Длительный перерыв",
+        "Cycles Before Long Break": "Циклы перед длительным перерывом"
+      },
+      "units": {
+        "min": "мин",
+        "cycles": "циклы"
+      }
     },
 
     "notifications": {
@@ -55,7 +76,12 @@
     "openSidebar": "Открыть меню навигации",
     "closeSidebar": "Закрыть меню навигации",
     "switchTheme": "Переключить на {theme} тему",
-    "languageSwitcher": "Переключатель языка"
+    "languageSwitcher": "Переключатель языка",
+    "timerStatus": "Current phase: {phase}. Time remaining: {time}",
+    "openSettings": "Open settings",
+    "resetTimer": "Reset timer to initial state",
+    "skipCycle": "Skip current phase",
+    "toggleTimer": "{state} timer"
   },
 
   "errors": {

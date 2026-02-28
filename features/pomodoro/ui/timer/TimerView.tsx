@@ -27,7 +27,6 @@ export const TimerView = ({ openSettings }: TTimerViewProps) => {
 
   usePomodoroSound(phase, isRunning, remainingSeconds);
 
-  // todo: a11y, micro-interactions, responsiveness, i18n
   return (
     <div className="relative flex h-full flex-col items-center justify-center gap-8">
       <div className="absolute top-0 right-0 flex flex-col gap-2">
