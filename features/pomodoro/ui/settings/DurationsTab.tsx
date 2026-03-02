@@ -3,6 +3,7 @@
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
+import { useTranslateSettings } from './useTranslateSettings';
 import {
   IPomodoroSettings,
   POMODORO_SETTINGS_SCHEMA,
@@ -18,7 +19,8 @@ const SettingRow = ({
   onSelect: (v: keyof IPomodoroSettings) => void;
 }) => {
   const settings = usePomodoroSettings();
-  const t = useTranslations();
+  const translate = useTranslateSettings('pomodoro.settings.durations');
+  const tGeneral = useTranslations('pomodoro.settings.general');
 
   return (
     <div className="flex flex-col gap-6">
@@ -26,24 +28,30 @@ const SettingRow = ({
         const value = settings[item.key];
 
         const displayValue =
-          typeof value === 'boolean' ? (value ? 'On' : 'Off') : String(value);
+          typeof value === 'boolean'
+            ? tGeneral(value ? 'on' : 'off')
+            : String(value);
+
+        const translated = translate(item);
+        const label = translated.label;
+        const unit = translated.type === 'range' ? translated.unit : undefined;
 
         return (
           <button
             key={String(item.key)}
             onClick={() => onSelect(item.key)}
-            aria-label={t('aria.')}
+            aria-label={label}
             className="group flex items-center justify-between"
           >
             <span className="text-left text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
-              {t(`pomodoro.durations.labels.${item.label}`)}
+              {label}
             </span>
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold tabular-nums">
                 {displayValue}
-                {item.type === 'range' && item.unit && (
+                {unit && (
                   <span className="text-muted ml-1 text-xs font-normal">
-                    {t(`pomodoro.durations.units.${item.unit}`)}
+                    {unit}
                   </span>
                 )}
               </span>

@@ -5,10 +5,14 @@ import {
   SelectSettingEditor,
   ToggleSettingEditor,
 } from './SettingEditors';
+import { useTranslateSettings } from './useTranslateSettings';
 import {
   POMODORO_SETTINGS_SCHEMA,
+  TPomodoroRangeSettingItem,
+  TPomodoroSelectSettingItem,
   TPomodoroSettingItem,
   TPomodoroSettingKey,
+  TPomodoroToggleSettingItem,
 } from '@/entities/pomodoro';
 
 export const DetailEditor = ({
@@ -18,9 +22,11 @@ export const DetailEditor = ({
   type: TPomodoroSettingKey;
   onBack: () => void;
 }) => {
-  const item = findSettingItem(type);
+  const found = findSettingItem(type);
+  const sectionId = found?.sectionId ?? 'durations';
+  const translate = useTranslateSettings(`pomodoro.settings.${sectionId}`);
 
-  if (!item) {
+  if (!found) {
     return (
       <div className="flex h-full items-center justify-center">
         <p className="text-muted">Setting not found</p>
@@ -28,15 +34,33 @@ export const DetailEditor = ({
     );
   }
 
+  const { item } = found;
+  const translatedItem = translate(item);
+
   switch (item.type) {
     case 'range':
-      return <RangeSettingEditor item={item} onBack={onBack} />;
+      return (
+        <RangeSettingEditor
+          item={translatedItem as TPomodoroRangeSettingItem}
+          onBack={onBack}
+        />
+      );
 
     case 'toggle':
-      return <ToggleSettingEditor item={item} onBack={onBack} />;
+      return (
+        <ToggleSettingEditor
+          item={translatedItem as TPomodoroToggleSettingItem}
+          onBack={onBack}
+        />
+      );
 
     case 'select':
-      return <SelectSettingEditor item={item} onBack={onBack} />;
+      return (
+        <SelectSettingEditor
+          item={translatedItem as TPomodoroSelectSettingItem}
+          onBack={onBack}
+        />
+      );
 
     default:
       const _exhaustive: never = item;
@@ -46,12 +70,15 @@ export const DetailEditor = ({
 
 function findSettingItem(
   key: TPomodoroSettingKey,
-): TPomodoroSettingItem | undefined {
-  const sections = Object.values(POMODORO_SETTINGS_SCHEMA);
+): { item: TPomodoroSettingItem; sectionId: string } | undefined {
+  const sections = Object.entries(POMODORO_SETTINGS_SCHEMA) as [
+    string,
+    (typeof POMODORO_SETTINGS_SCHEMA)[string],
+  ][];
 
-  for (const section of sections) {
+  for (const [sectionId, section] of sections) {
     const item = section.items.find(i => i.key === key);
-    if (item) return item as TPomodoroSettingItem;
+    if (item) return { item: item as TPomodoroSettingItem, sectionId };
   }
 
   return undefined;

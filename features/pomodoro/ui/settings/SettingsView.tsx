@@ -32,12 +32,12 @@ export const SettingsView = ({ onBack }: { onBack: () => void }) => {
   const TABS = [
     {
       id: 'durations',
-      label: t('durations'),
+      label: t('tabs.durations'),
       component: <DurationsTab onSelectDetail={setActiveDetailView} />,
     },
     {
       id: 'notifications',
-      label: t('notifications'),
+      label: t('tabs.notifications'),
       component: <NotificationsTab />,
     },
   ];

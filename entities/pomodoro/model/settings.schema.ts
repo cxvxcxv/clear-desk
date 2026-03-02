@@ -9,65 +9,48 @@ export const POMODORO_SETTINGS_SCHEMA: Record<
 > = {
   durations: {
     id: 'durations',
-    title: 'Durations',
     items: [
       createRange('workMinutes', {
-        label: 'Work',
         min: 1,
         max: 60,
         step: 1,
         unit: 'min',
-        description: 'Duration of work sessions',
       }),
       createRange('shortBreakMinutes', {
-        label: 'Short Break',
         min: 1,
         max: 30,
         step: 1,
         unit: 'min',
-        description: 'Duration of short breaks',
       }),
       createRange('longBreakMinutes', {
-        label: 'Long Break',
         min: 5,
         max: 60,
         step: 1,
         unit: 'min',
-        description: 'Duration of long breaks',
       }),
       createRange('cyclesBeforeLongBreak', {
-        label: 'Cycles Before Long Break',
         min: 2,
         max: 10,
         step: 1,
         unit: 'cycles',
-        description: 'Number of work cycles before a long break',
       }),
     ],
   },
   notifications: {
     id: 'notifications',
-    title: 'Notifications',
     items: [
-      createToggle('isMuted', {
-        label: 'Mute Sounds',
-        description: 'Disable sound notifications',
-      }),
+      createToggle('isMuted', {}),
       createRange('volume', {
-        label: 'Volume',
         min: 0,
         max: 100,
         step: 10,
-        unit: '%',
-        description: 'Notification volume level',
+        unit: 'percent',
       }),
       createSelect('soundPackId', {
-        label: 'Sound Pack',
         options: Object.values(POMODORO_SOUND_PACKS).map(pack => ({
           label: pack.name,
           value: pack.id,
         })),
-        description: 'Select your sound pack',
       }),
     ],
   },

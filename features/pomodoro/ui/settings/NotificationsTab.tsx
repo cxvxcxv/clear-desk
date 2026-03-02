@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslateSettings } from './useTranslateSettings';
 import {
   POMODORO_SETTINGS_SCHEMA,
   usePomodoroSettings,
@@ -9,6 +10,7 @@ import { SettingItemRender } from '@/shared/ui';
 export const NotificationsTab = () => {
   const settings = usePomodoroSettings();
   const section = POMODORO_SETTINGS_SCHEMA.notifications;
+  const translate = useTranslateSettings('pomodoro.settings.notifications');
 
   if (!section) return null;
 
@@ -17,7 +19,7 @@ export const NotificationsTab = () => {
       {section.items.map(item => (
         <SettingItemRender
           key={String(item.key)}
-          item={item}
+          item={translate(item)}
           value={settings[item.key]}
           onChange={val => settings.updateSettings({ [item.key]: val })}
         />

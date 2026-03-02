@@ -45,8 +45,51 @@
     "settings": {
       "title": "Settings",
       "back": "Back",
-      "durations": "Durations",
-      "notifications": "Notifications"
+      "tabs": {
+        "durations": "Durations",
+        "notifications": "Notifications"
+      },
+      "durations": {
+        "workMinutes": {
+          "label": "Work",
+          "description": "Duration of work sessions"
+        },
+        "shortBreakMinutes": {
+          "label": "Short Break",
+          "description": "Duration of short breaks"
+        },
+        "longBreakMinutes": {
+          "label": "Long Break",
+          "description": "Duration of long breaks"
+        },
+        "cyclesBeforeLongBreak": {
+          "label": "Cycles Before Long Break",
+          "description": "Number of work cycles before a long break"
+        }
+      },
+      "notifications": {
+        "isMuted": {
+          "label": "Mute Sounds",
+          "description": "Disable sound notifications"
+        },
+        "volume": {
+          "label": "Volume",
+          "description": "Notification volume level"
+        },
+        "soundPackId": {
+          "label": "Sound Pack",
+          "description": "Select your sound pack"
+        }
+      },
+      "units": {
+        "min": "min",
+        "cycles": "cycles",
+        "percent": "%"
+      },
+      "general": {
+        "on": "On",
+        "off": "Off"
+      }
     },
 
     "durations": {

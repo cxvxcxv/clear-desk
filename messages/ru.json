@@ -45,24 +45,57 @@
     "settings": {
       "title": "Настройки",
       "back": "Назад",
-      "durations": "Длительности",
-      "notifications": "Уведомления"
+      "tabs": {
+        "durations": "Длительности",
+        "notifications": "Уведомления"
+      },
+      "durations": {
+        "workMinutes": {
+          "label": "Работа",
+          "description": "Длительность рабочих сессий"
+        },
+        "shortBreakMinutes": {
+          "label": "Короткий перерыв",
+          "description": "Длительность коротких перерывов"
+        },
+        "longBreakMinutes": {
+          "label": "Длинный перерыв",
+          "description": "Длительность длинных перерывов"
+        },
+        "cyclesBeforeLongBreak": {
+          "label": "Циклы перед длительным перерывом",
+          "description": "Количество рабочих циклов перед длинным перерывом"
+        }
+      },
+      "notifications": {
+        "isMuted": {
+          "label": "Без звука",
+          "description": "Отключить звуковые уведомления"
+        },
+        "volume": {
+          "label": "Громкость",
+          "description": "Уровень громкости уведомлений"
+        },
+        "soundPackId": {
+          "label": "Набор звуков",
+          "description": "Выберите набор звуков"
+        }
+      },
+      "units": {
+        "min": "мин",
+        "cycles": "циклы",
+        "percent": "%"
+      },
+      "general": {
+        "on": "Вкл",
+        "off": "Выкл"
+      }
     },
 
     "durations": {
       "work": "Работа",
       "shortBreak": "Короткий перерыв",
-      "longBreak": "Длинный перерыв",
-      "labels": {
-        "Work": "Работа",
-        "Short Break": "Короткий перерыв",
-        "Long Break": "Длительный перерыв",
-        "Cycles Before Long Break": "Циклы перед длительным перерывом"
-      },
-      "units": {
-        "min": "мин",
-        "cycles": "циклы"
-      }
+      "longBreak": "Длинный перерыв"
     },
 
     "notifications": {
@@ -73,15 +106,15 @@
   },
 
   "aria": {
-    "openSidebar": "Открыть меню навигации",
-    "closeSidebar": "Закрыть меню навигации",
+    "openSidebar": "Открыть боковую панель",
+    "closeSidebar": "Закрыть боковую панель",
     "switchTheme": "Переключить на {theme} тему",
-    "languageSwitcher": "Переключатель языка",
-    "timerStatus": "Current phase: {phase}. Time remaining: {time}",
-    "openSettings": "Open settings",
-    "resetTimer": "Reset timer to initial state",
-    "skipCycle": "Skip current phase",
-    "toggleTimer": "{state} timer"
+    "languageSwitcher": "Выбор языка",
+    "timerStatus": "Текущий этап: {phase}. Оставшееся время: {time}",
+    "openSettings": "Открыть настройки",
+    "resetTimer": "Сбросить таймер",
+    "skipCycle": "Пропустить текущий этап",
+    "toggleTimer": "{state} таймер"
   },
 
   "errors": {

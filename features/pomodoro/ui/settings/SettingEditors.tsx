@@ -1,6 +1,7 @@
 'use client';
 
 import { ChevronLeft, Minus, Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import {
   TPomodoroRangeSettingItem,
@@ -17,6 +18,7 @@ export const RangeSettingEditor = ({
   item,
   onBack,
 }: { item: TPomodoroRangeSettingItem } & TSettingEditorProps) => {
+  const t = useTranslations('pomodoro.settings');
   const settings = usePomodoroSettings();
   const value = settings[item.key];
 
@@ -29,7 +31,7 @@ export const RangeSettingEditor = ({
         onClick={onBack}
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
       >
-        <ChevronLeft size={16} /> Back
+        <ChevronLeft size={16} /> {t('back')}
       </button>
 
       <div className="flex flex-col items-center gap-8 text-center">
@@ -74,6 +76,7 @@ export const ToggleSettingEditor = ({
   item,
   onBack,
 }: { item: TPomodoroToggleSettingItem } & TSettingEditorProps) => {
+  const t = useTranslations('pomodoro.settings');
   const settings = usePomodoroSettings();
   const value = settings[item.key];
 
@@ -85,7 +88,7 @@ export const ToggleSettingEditor = ({
         onClick={onBack}
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
       >
-        <ChevronLeft size={16} /> Back
+        <ChevronLeft size={16} /> {t('back')}
       </button>
 
       <div className="flex flex-col items-center gap-8 text-center">
@@ -120,6 +123,7 @@ export const SelectSettingEditor = ({
   item,
   onBack,
 }: { item: TPomodoroSelectSettingItem } & TSettingEditorProps) => {
+  const t = useTranslations('pomodoro.settings');
   const settings = usePomodoroSettings();
   const value = settings[item.key];
 
@@ -132,7 +136,7 @@ export const SelectSettingEditor = ({
         onClick={onBack}
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
       >
-        <ChevronLeft size={16} /> Back
+        <ChevronLeft size={16} /> {t('back')}
       </button>
 
       <div className="flex flex-col items-center gap-8">
