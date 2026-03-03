@@ -30,16 +30,34 @@
     }
   },
 
+  "general": {
+    "units": {
+      "min": "мин",
+      "cycles": "циклы",
+      "percent": "%"
+    },
+    "states": {
+      "on": "Вкл",
+      "off": "Выкл",
+      "enabled": "Включено",
+      "disabled": "Отключено"
+    },
+    "actions": {
+      "save": "Сохранить",
+      "cancel": "Отменить"
+    }
+  },
+
   "pomodoro": {
     "display": {
-      "cycle": "Cycle"
+      "cycle": "Цикл"
     },
 
     "controls": {
-      "start": "Start",
-      "pause": "Pause",
-      "reset": "Reset",
-      "skip": "Skip"
+      "start": "Старт",
+      "pause": "Пауза",
+      "reset": "Сброс",
+      "skip": "Пропуск"
     },
 
     "settings": {
@@ -80,15 +98,6 @@
           "label": "Набор звуков",
           "description": "Выберите набор звуков"
         }
-      },
-      "units": {
-        "min": "мин",
-        "cycles": "циклы",
-        "percent": "%"
-      },
-      "general": {
-        "on": "Вкл",
-        "off": "Выкл"
       }
     },
 

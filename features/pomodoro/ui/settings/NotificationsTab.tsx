@@ -1,10 +1,10 @@
 'use client';
 
-import { useTranslateSettings } from './useTranslateSettings';
 import {
   POMODORO_SETTINGS_SCHEMA,
   usePomodoroSettings,
 } from '@/entities/pomodoro';
+import { useTranslateSettings } from '@/shared/hooks';
 import { SettingItemRender } from '@/shared/ui';
 
 export const NotificationsTab = () => {
@@ -15,7 +15,7 @@ export const NotificationsTab = () => {
   if (!section) return null;
 
   return (
-    <div role="tabpanel" className="flex flex-col gap-8 px-6 py-2">
+    <div role="tabpanel" className="flex flex-col gap-6 px-6 py-2">
       {section.items.map(item => (
         <SettingItemRender
           key={String(item.key)}

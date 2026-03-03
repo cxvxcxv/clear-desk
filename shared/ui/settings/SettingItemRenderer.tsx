@@ -22,7 +22,7 @@ export function SettingItemRender<T, K extends keyof T>({
       return (
         <SettingRow label={item.label} description={item.description}>
           <ToggleButton
-            isActive={value as unknown as boolean}
+            isActive={Boolean(value)}
             onClick={() => onChange(!value as unknown as T[K])}
           />
         </SettingRow>
@@ -34,7 +34,7 @@ export function SettingItemRender<T, K extends keyof T>({
         <SettingRow label={item.label} description={item.description}>
           <div className="flex items-center gap-2">
             <RangeInput
-              defaultValue={value as unknown as number}
+              value={Number(value)}
               min={item.min}
               max={item.max}
               step={item.step}
@@ -42,8 +42,8 @@ export function SettingItemRender<T, K extends keyof T>({
                 onChange(Number(e.target.value) as unknown as T[K])
               }
             />
-            <span className="min-w-[3ch] text-sm font-bold tabular-nums">
-              {String(value)}
+            <span className="min-w-[4ch] text-sm font-bold tabular-nums">
+              {Number(value).toLocaleString()}
               {item.unit}
             </span>
           </div>

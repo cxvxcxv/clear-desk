@@ -5,7 +5,6 @@ import {
   SelectSettingEditor,
   ToggleSettingEditor,
 } from './SettingEditors';
-import { useTranslateSettings } from './useTranslateSettings';
 import {
   POMODORO_SETTINGS_SCHEMA,
   TPomodoroRangeSettingItem,
@@ -14,6 +13,7 @@ import {
   TPomodoroSettingKey,
   TPomodoroToggleSettingItem,
 } from '@/entities/pomodoro';
+import { useTranslateSettings } from '@/shared/hooks';
 
 export const DetailEditor = ({
   type,

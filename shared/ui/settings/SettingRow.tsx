@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 type TSettingRowProps = {
-  label: string;
+  label?: string;
   description?: string;
   children: ReactNode;
 };

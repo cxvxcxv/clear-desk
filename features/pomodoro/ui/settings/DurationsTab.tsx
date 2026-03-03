@@ -3,12 +3,12 @@
 import { ChevronRight } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { useTranslateSettings } from './useTranslateSettings';
 import {
   IPomodoroSettings,
   POMODORO_SETTINGS_SCHEMA,
   usePomodoroSettings,
 } from '@/entities/pomodoro';
+import { useTranslateSettings } from '@/shared/hooks';
 import { ISettingsSection } from '@/shared/types';
 
 const SettingRow = ({
@@ -39,14 +39,17 @@ const SettingRow = ({
         return (
           <button
             key={String(item.key)}
-            onClick={() => onSelect(item.key)}
-            aria-label={label}
+            aria-label={`${label}: ${displayValue} ${unit ?? ''}`}
             className="group flex items-center justify-between"
+            onClick={() => onSelect(item.key)}
           >
-            <span className="text-left text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100">
+            <span
+              aria-hidden
+              className="text-left text-sm font-medium opacity-80 transition-opacity group-hover:opacity-100"
+            >
               {label}
             </span>
-            <div className="flex items-center gap-2">
+            <div aria-hidden className="flex items-center gap-2">
               <span className="text-lg font-bold tabular-nums">
                 {displayValue}
                 {unit && (

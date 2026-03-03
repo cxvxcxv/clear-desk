@@ -29,8 +29,11 @@ export const TimerControls = ({
       </button>
       <button
         aria-label={t('aria.toggleTimer', {
-          state: isRunning ? 'Pause' : 'Start',
+          state: isRunning
+            ? t('pomodoro.controls.pause')
+            : t('pomodoro.controls.start'),
         })}
+        aria-pressed={isRunning}
         onClick={toggleTimer}
         title={
           isRunning

@@ -2,10 +2,6 @@ export type TSettingType = 'range' | 'toggle' | 'select' | 'text';
 
 export interface IBaseSettingConfig<T, K extends keyof T = keyof T> {
   key: K;
-  /**
-   * Human-readable label. may be filled by UI via translations when
-   * schema is language-agnostic.
-   */
   label?: string;
   description?: string;
   type: TSettingType;
@@ -54,7 +50,6 @@ export type TWidgetSetting<T, K extends keyof T = keyof T> =
 
 export interface ISettingsSection<T> {
   id: string;
-  /** optional display title; translations should live outside schema */
   title?: string;
   items: TWidgetSetting<T>[];
 }

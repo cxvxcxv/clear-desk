@@ -28,8 +28,9 @@ export const RangeSettingEditor = ({
   return (
     <div className="relative flex h-full flex-col items-center justify-center px-6">
       <button
-        onClick={onBack}
+        autoFocus
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
+        onClick={onBack}
       >
         <ChevronLeft size={16} /> {t('back')}
       </button>
@@ -41,13 +42,16 @@ export const RangeSettingEditor = ({
 
         <div className="flex items-center gap-10">
           <ControlButton
-            onClick={() => update(-item.step)}
             disabled={value <= item.min}
             icon={<Minus size={24} />}
+            onClick={() => update(-item.step)}
           />
 
-          <div className="flex flex-col">
-            <span className="text-7xl leading-none font-black tabular-nums">
+          <div aria-live="polite" className="flex flex-col">
+            <span
+              aria-live="polite"
+              className="text-7xl leading-none font-black tabular-nums"
+            >
               {value}
             </span>
             <span className="text-muted mt-2 text-[10px] font-bold tracking-[0.2em] uppercase">
@@ -81,12 +85,14 @@ export const ToggleSettingEditor = ({
   const value = settings[item.key];
 
   const toggle = () => settings.updateSettings({ [item.key]: !value });
+  const tStates = useTranslations('general.states');
 
   return (
     <div className="relative flex h-full flex-col items-center justify-center px-6">
       <button
-        onClick={onBack}
+        autoFocus
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
+        onClick={onBack}
       >
         <ChevronLeft size={16} /> {t('back')}
       </button>
@@ -97,6 +103,9 @@ export const ToggleSettingEditor = ({
         </h2>
 
         <button
+          role="switch"
+          aria-checked={value}
+          aria-label={item.label}
           onClick={toggle}
           className={`flex h-16 w-32 items-center rounded-full border-2 transition-all ${
             value
@@ -105,7 +114,7 @@ export const ToggleSettingEditor = ({
           }`}
         >
           <span className="w-full text-lg font-bold">
-            {value ? 'ON' : 'OFF'}
+            {value ? tStates('on') : tStates('off')}
           </span>
         </button>
 
@@ -133,8 +142,9 @@ export const SelectSettingEditor = ({
   return (
     <div className="relative flex h-full flex-col items-center justify-center px-6">
       <button
-        onClick={onBack}
+        autoFocus
         className="absolute top-0 left-0 flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
+        onClick={onBack}
       >
         <ChevronLeft size={16} /> {t('back')}
       </button>

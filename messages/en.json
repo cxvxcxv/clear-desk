@@ -30,6 +30,24 @@
     }
   },
 
+  "general": {
+    "units": {
+      "min": "min",
+      "cycles": "cycles",
+      "percent": "%"
+    },
+    "states": {
+      "on": "On",
+      "off": "Off",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    },
+    "actions": {
+      "save": "Save",
+      "cancel": "Cancel"
+    }
+  },
+
   "pomodoro": {
     "display": {
       "cycle": "Cycle"
@@ -80,15 +98,6 @@
           "label": "Sound Pack",
           "description": "Select your sound pack"
         }
-      },
-      "units": {
-        "min": "min",
-        "cycles": "cycles",
-        "percent": "%"
-      },
-      "general": {
-        "on": "On",
-        "off": "Off"
       }
     },
 

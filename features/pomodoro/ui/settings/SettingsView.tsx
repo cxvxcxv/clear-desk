@@ -47,6 +47,7 @@ export const SettingsView = ({ onBack }: { onBack: () => void }) => {
       <header className="grid w-full grid-cols-3 items-center">
         <button
           onClick={onBack}
+          aria-label={t('back')}
           className="border-border flex h-8 w-8 items-center justify-center rounded-full border-2"
         >
           <ChevronLeft className="h-6 w-6" strokeWidth={1.5} />

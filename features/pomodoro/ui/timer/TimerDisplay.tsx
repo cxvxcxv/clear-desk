@@ -28,7 +28,6 @@ export const TimerDisplay = ({
   return (
     <div
       role="timer"
-      aria-live="polite"
       aria-atomic
       aria-label={t('aria.timerStatus', {
         phase: t(`pomodoro.durations.${phase}`),
@@ -36,6 +35,14 @@ export const TimerDisplay = ({
       })}
       className="relative my-auto"
     >
+      <div aria-live="assertive" className="sr-only">
+        {remainingSeconds === 0
+          ? t('pomodoro.display.finished', {
+              phase: t(`pomodoro.durations.${phase}`),
+            })
+          : ''}
+      </div>
+
       <CircularProgress
         value={remainingSeconds / totalSeconds}
         size={180}
@@ -55,7 +62,7 @@ export const TimerDisplay = ({
         <span className="font-mono text-4xl tabular-nums">{formattedTime}</span>
 
         <span className="text-muted text-sm tracking-widest uppercase">
-          {phase}
+          {t(`pomodoro.durations.${phase}`)}
         </span>
       </div>
     </div>
