@@ -8,6 +8,9 @@
   --color-border: oklch(0.85 0 262);
   --color-muted: oklch(0.43 0.02 261);
   --color-primary: oklch(0.57 0.27 257);
+  --color-red: oklch(0.65 0.2 25);
+  --color-yellow: oklch(0.82 0.16 85);
+  --color-green: oklch(0.72 0.14 150);
 }
 
 .dark {
@@ -17,6 +20,9 @@
   --color-border: oklch(0.32 0 262);
   --color-muted: oklch(0.55 0.02 261);
   --color-primary: oklch(0.52 0.25 257);
+  --color-red: oklch(0.6 0.18 25);
+  --color-yellow: oklch(0.78 0.14 85);
+  --color-green: oklch(0.68 0.12 150);
 }
 
 @theme {
@@ -26,6 +32,9 @@
   --color-border: var(--color-border);
   --color-muted: var(--color-muted);
   --color-primary: var(--color-primary);
+  --color-red: var(--color-red);
+  --color-yellow: var(--color-yellow);
+  --color-green: var(--color-green);
 
   --spacing-sidebar-width: theme('spacing.64');
   --spacing-header-height: theme('spacing.16');

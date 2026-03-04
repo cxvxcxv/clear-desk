@@ -1,3 +1,4 @@
+export * from './Checkbox';
 export * from './CircularProgress';
 export * from './Option';
 export * from './PanelStack';

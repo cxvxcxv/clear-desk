@@ -105,12 +105,19 @@
       "work": "Work",
       "shortBreak": "Short break",
       "longBreak": "Long break"
-    },
+    }
+  },
 
-    "notifications": {
-      "enable": "Enable notifications",
-      "sound": "Sound",
-      "volume": "Volume"
+  "task": {
+    "name": "Name",
+    "isComplete": "Is complete",
+    "deadline": "Deadline",
+    "priority": "Priority",
+
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High"
     }
   },
 
@@ -119,6 +126,7 @@
     "closeSidebar": "Close navigation menu",
     "switchTheme": "Switch to {theme} theme",
     "languageSwitcher": "Language switcher",
+
     "timerStatus": "Current phase: {phase}. Time remaining: {time}",
     "openSettings": "Open settings",
     "resetTimer": "Reset timer to initial state",
