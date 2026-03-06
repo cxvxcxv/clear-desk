@@ -1,28 +1,25 @@
-import { ITask } from '@/entities/task';
+'use client';
+
+import { ITask, useTasks } from '@/entities/task';
 import { Task } from '@/features/task';
 
-const TASKS_MOCK: ITask[] = [
-  {
-    id: '1',
-    name: 'test name',
-    isComplete: false,
-    deadline: new Date(),
-    priority: 'medium',
-  },
-  {
-    id: '2',
-    name: 'test name',
-    isComplete: false,
-    priority: 'medium',
-  },
-];
+const TASK_MOCK: ITask = {
+  id: '2',
+  name: 'test name test name test name test name test name test name test name test name test name test name test name test name test name test name',
+  isComplete: false,
+  priority: 'low',
+};
 
 export const Tasks = () => {
-  return (
-    <div className="flex flex-col gap-2">
-      {TASKS_MOCK.map(task => (
-        <Task key={task.id} task={task} />
-      ))}
-    </div>
-  );
+  const addTask = useTasks(state => state.addTask);
+  const { tasks } = useTasks();
+  if (tasks)
+    return (
+      <div className="flex flex-col gap-2">
+        <button onClick={() => addTask(TASK_MOCK)}>add</button>
+        {tasks.map(task => (
+          <Task key={task.id} task={task} />
+        ))}
+      </div>
+    );
 };

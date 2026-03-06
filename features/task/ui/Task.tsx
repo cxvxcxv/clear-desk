@@ -1,9 +1,10 @@
 'use client';
 
+import clsx from 'clsx';
 import { Calendar, Flag } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { ITask, formatDate } from '@/entities/task';
+import { ITask, formatDate, useTasks } from '@/entities/task';
 import { Checkbox } from '@/shared/ui';
 
 type TTaskProps = {
@@ -12,22 +13,42 @@ type TTaskProps = {
 
 export const Task = ({ task }: TTaskProps) => {
   const t = useTranslations('task');
+  const removeTask = useTasks(state => state.removeTask);
+  const toggleTask = useTasks(state => state.toggleTask);
   const ariaPriorityStatus =
     t('priority') + ': ' + t(`priorities.${task.priority}`);
 
   return (
-    <div className="border-border flex items-center justify-between gap-3 rounded-md border p-3">
-      <Checkbox />
+    <div
+      className={clsx(
+        'border-border flex items-center justify-between gap-3 rounded-md border p-3 transition-all',
+        task.isComplete && 'bg-card/30 text-muted opacity-70',
+      )}
+    >
+      <Checkbox
+        checked={task.isComplete}
+        onChange={() => toggleTask(task.id)}
+      />
       <div className="flex-1">
-        <p className="text-sm">{task.name}</p>
+        <p className={clsx('text-sm', task.isComplete && 'line-through')}>
+          {task.name}
+        </p>
         {task.deadline && (
-          <p className="text-muted flex gap-1 text-xs">
-            <Calendar size="0.75rem" /> {formatDate(task.deadline)}
+          <p className="text-muted flex items-center gap-1 text-xs">
+            <Calendar size="0.75rem" /> {formatDate(new Date(task.deadline))}
           </p>
         )}
       </div>
       <span aria-label={ariaPriorityStatus}>
-        <Flag size="0.75rem" />
+        <Flag
+          size="0.75rem"
+          onClick={() => removeTask(task.id)}
+          className={clsx({
+            'text-green': task.priority === 'low',
+            'text-red': task.priority === 'high',
+            'text-yellow': task.priority === 'medium',
+          })}
+        />
       </span>
     </div>
   );

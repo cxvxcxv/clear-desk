@@ -14,13 +14,13 @@ export const MOCK_DASHBOARDS: TDashboard[] = [
       {
         id: 'w2',
         type: 'notes',
-        sortOrder: 2,
+        sortOrder: 5,
         layout: { colSpan: 1, rowSpan: 1 },
       },
       {
         id: 'w3',
         type: 'pomodoro',
-        sortOrder: 3,
+        sortOrder: 2,
         layout: { colSpan: 1, rowSpan: 1 },
       },
       {
@@ -32,7 +32,7 @@ export const MOCK_DASHBOARDS: TDashboard[] = [
       {
         id: 'w5',
         type: 'tasks',
-        sortOrder: 5,
+        sortOrder: 3,
         layout: { colSpan: 1, rowSpan: 1 },
       },
     ],
