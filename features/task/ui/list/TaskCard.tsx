@@ -11,7 +11,7 @@ type TTaskProps = {
   task: ITask;
 };
 
-export const Task = ({ task }: TTaskProps) => {
+export const TaskCard = ({ task }: TTaskProps) => {
   const t = useTranslations('task');
   const removeTask = useTasks(state => state.removeTask);
   const toggleTask = useTasks(state => state.toggleTask);
