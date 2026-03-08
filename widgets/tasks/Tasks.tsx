@@ -17,7 +17,7 @@ export const Tasks = () => {
       render={v => {
         if (v === 'list')
           return <ListView openTaskView={() => setRootView('task')} />;
-        return <TaskView />;
+        return <TaskView onBack={() => setRootView('list')} />;
       }}
     />
   );

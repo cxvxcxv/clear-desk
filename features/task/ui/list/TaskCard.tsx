@@ -7,11 +7,11 @@ import { useTranslations } from 'next-intl';
 import { ITask, formatDate, useTasks } from '@/entities/task';
 import { Checkbox } from '@/shared/ui';
 
-type TTaskProps = {
+type TTaskCardProps = {
   task: ITask;
 };
 
-export const TaskCard = ({ task }: TTaskProps) => {
+export const TaskCard = ({ task }: TTaskCardProps) => {
   const t = useTranslations('task');
   const removeTask = useTasks(state => state.removeTask);
   const toggleTask = useTasks(state => state.toggleTask);
@@ -21,7 +21,7 @@ export const TaskCard = ({ task }: TTaskProps) => {
   return (
     <div
       className={clsx(
-        'border-border flex items-center justify-between gap-3 rounded-md border p-3 transition-all',
+        'border-border flex items-center justify-between gap-3 rounded-md border p-3 text-left transition-all',
         task.isComplete && 'bg-card/30 text-muted opacity-70',
       )}
     >
