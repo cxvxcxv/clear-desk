@@ -12,11 +12,11 @@ type TTaskCardProps = {
 };
 
 export const TaskCard = ({ task }: TTaskCardProps) => {
-  const t = useTranslations('task');
   const removeTask = useTasks(state => state.removeTask);
   const toggleTask = useTasks(state => state.toggleTask);
+  const t = useTranslations('task');
   const ariaPriorityStatus =
-    t('priority') + ': ' + t(`priorities.${task.priority}`);
+    t && t('priority') + ': ' + t(`priorities.${task.priority}`);
 
   return (
     <div
