@@ -42,6 +42,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         <input
           id="task-deadline"
           type="date"
+          defaultValue={new Date().toISOString().split('T')[0]}
           onChange={e =>
             setData({ ...data, deadline: new Date(e.target.value) })
           }
