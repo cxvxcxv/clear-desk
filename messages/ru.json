@@ -126,11 +126,15 @@
     "closeSidebar": "Закрыть боковую панель",
     "switchTheme": "Переключить на {theme} тему",
     "languageSwitcher": "Выбор языка",
+
     "timerStatus": "Текущий этап: {phase}. Оставшееся время: {time}",
     "openSettings": "Открыть настройки",
     "resetTimer": "Сбросить таймер",
     "skipCycle": "Пропустить текущий этап",
-    "toggleTimer": "{state} таймер"
+    "toggleTimer": "{state} таймер",
+
+    "createTask": "Создать новую задачу",
+    "editTask": "Редактировать выбранную задачу"
   },
 
   "errors": {

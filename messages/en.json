@@ -131,7 +131,10 @@
     "openSettings": "Open settings",
     "resetTimer": "Reset timer to initial state",
     "skipCycle": "Skip current phase",
-    "toggleTimer": "{state} timer"
+    "toggleTimer": "{state} timer",
+
+    "createTask": "Create a new task",
+    "editTask": "Edit selected task"
   },
 
   "errors": {
