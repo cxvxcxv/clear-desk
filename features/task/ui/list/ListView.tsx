@@ -9,6 +9,8 @@ type TListViewProps = {
 
 export const ListView = ({ openTaskView }: TListViewProps) => {
   const { tasks } = useTasks();
+  const completedCount = tasks.filter(task => task.isComplete).length;
+
   if (!tasks) return <div>loading...</div>;
 
   return (
@@ -19,6 +21,16 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
           <Plus strokeWidth={1.5} size={18} />
         </button>
       </header>
+      <div>
+        <span id="completed-tasks-count">
+          {completedCount} / {tasks.length}
+        </span>
+        <progress
+          aria-labelledby="completed-tasks-count"
+          value={completedCount}
+          max={tasks.length}
+        ></progress>
+      </div>
       {tasks.map(task => (
         <TaskCard key={task.id} task={task} />
       ))}

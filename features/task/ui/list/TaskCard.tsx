@@ -26,7 +26,7 @@ export const TaskCard = ({ task }: TTaskCardProps) => {
       )}
     >
       <Checkbox
-        checked={task.isComplete}
+        checked={!!task.isComplete}
         onChange={() => toggleTask(task.id)}
       />
       <div className="flex-1">
