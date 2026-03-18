@@ -2,6 +2,7 @@ export * from './Checkbox';
 export * from './CircularProgress';
 export * from './Option';
 export * from './PanelStack';
+export * from './Progress';
 export * from './RangeInput';
 export * from './SegmentedControl';
 export * from './Select';

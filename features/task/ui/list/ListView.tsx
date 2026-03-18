@@ -2,6 +2,7 @@ import { Plus } from 'lucide-react';
 
 import { TaskCard } from './TaskCard';
 import { useTasks } from '@/entities/task';
+import { Progress } from '@/shared/ui';
 
 type TListViewProps = {
   openTaskView: () => void;
@@ -25,11 +26,11 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
         <span id="completed-tasks-count">
           {completedCount} / {tasks.length}
         </span>
-        <progress
+        <Progress
           aria-labelledby="completed-tasks-count"
           value={completedCount}
           max={tasks.length}
-        ></progress>
+        ></Progress>
       </div>
       {tasks.map(task => (
         <TaskCard key={task.id} task={task} />
