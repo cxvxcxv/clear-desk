@@ -23,14 +23,22 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
         </button>
       </header>
       <div>
-        <span id="completed-tasks-count">
-          {completedCount} / {tasks.length}
-        </span>
+        <div className="mb-1 flex justify-between text-sm">
+          <p id="progress-label" className="text-muted">
+            Progress
+          </p>
+
+          <p id="task-status" aria-live="polite">
+            {completedCount}/{tasks.length} completed
+          </p>
+        </div>
+
         <Progress
-          aria-labelledby="completed-tasks-count"
-          value={completedCount}
-          max={tasks.length}
-        ></Progress>
+          aria-labelledby="progress-label"
+          aria-valuetext={`${completedCount} of ${tasks.length} tasks completed`}
+          value={(completedCount / tasks.length) * 100}
+          max={100}
+        />
       </div>
       {tasks.map(task => (
         <TaskCard key={task.id} task={task} />
