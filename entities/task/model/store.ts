@@ -5,7 +5,7 @@ import { ITask } from './types';
 
 interface ITaskStore {
   tasks: ITask[];
-  addTask: (task: Omit<ITask, 'id'>) => void;
+  addTask: (task: Omit<ITask, 'id' | 'isComplete'>) => void;
   editTask: (id: string, task: Partial<ITask>) => void;
   removeTask: (id: string) => void;
   toggleTask: (id: string) => void;
@@ -19,7 +19,10 @@ export const useTasks = create<ITaskStore>()(
 
       addTask: task =>
         set(state => ({
-          tasks: [...state.tasks, { ...task, id: crypto.randomUUID() }],
+          tasks: [
+            ...state.tasks,
+            { ...task, isComplete: false, id: crypto.randomUUID() },
+          ],
         })),
       editTask: (id, task) =>
         set(state => ({
