@@ -1,14 +1,15 @@
 import { Plus } from 'lucide-react';
 
 import { TaskCard } from './TaskCard';
-import { useTasks } from '@/entities/task';
+import { ITask, useTasks } from '@/entities/task';
 import { Progress } from '@/shared/ui';
 
 type TListViewProps = {
   openTaskView: () => void;
+  onTaskSelect: (task: ITask) => void;
 };
 
-export const ListView = ({ openTaskView }: TListViewProps) => {
+export const ListView = ({ openTaskView, onTaskSelect }: TListViewProps) => {
   const { tasks } = useTasks();
   const completedCount = tasks.filter(task => task.isComplete).length;
 
@@ -41,7 +42,15 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
         />
       </div>
       {tasks.map(task => (
-        <TaskCard key={task.id} task={task} />
+        <TaskCard
+          key={task.id}
+          task={task}
+          onClick={() => {
+            onTaskSelect(task);
+            openTaskView();
+            console.log('task');
+          }}
+        />
       ))}
     </div>
   );
