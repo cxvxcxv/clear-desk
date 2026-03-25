@@ -1,5 +1,5 @@
 import { ChevronLeft } from 'lucide-react';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 
 import { ITask, TPriority, useTasks } from '@/entities/task';
 import { Option, Select } from '@/shared/ui';
@@ -50,11 +50,6 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
   const dateValue = data.deadline
     ? new Date(data.deadline).toISOString().split('T')[0]
     : '';
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (task) setData(task);
-  }, [task]);
 
   return (
     <div className="flex h-full flex-col items-center gap-6">
