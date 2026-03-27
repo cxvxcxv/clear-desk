@@ -5,5 +5,5 @@ export interface ITask {
   name: string;
   isComplete: boolean;
   priority: TPriority;
-  deadline?: Date;
+  deadline?: string;
 }

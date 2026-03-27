@@ -1,55 +1,48 @@
 import { ChevronLeft } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { ITask, TPriority, useTasks } from '@/entities/task';
+import { ITask, useTasks } from '@/entities/task';
 import { Option, Select } from '@/shared/ui';
+
+type TTaskFormValues = Omit<ITask, 'id' | 'isComplete'>;
 
 type TTaskViewProps = {
   onBack: () => void;
   task?: ITask;
 };
 
+const DEFAULT_VALUES: TTaskFormValues = {
+  name: '',
+  priority: 'low',
+  deadline: new Date().toISOString().split('T')[0],
+};
+
 export const TaskView = ({ task, onBack }: TTaskViewProps) => {
   const addTask = useTasks(state => state.addTask);
   const editTask = useTasks(state => state.editTask);
 
-  const [data, setData] = useState<Omit<ITask, 'id' | 'isComplete'>>(
-    task || {
-      name: '',
-      priority: 'low',
-      deadline: new Date(),
-    },
-  );
+  const isEditing = Boolean(task?.id);
 
-  const [prevTaskId, setPrevTaskId] = useState(task?.id);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<TTaskFormValues>({
+    values: task
+      ? { name: task.name, priority: task.priority, deadline: task.deadline }
+      : DEFAULT_VALUES,
+  });
 
-  if (task?.id !== prevTaskId) {
-    setPrevTaskId(task?.id);
-    if (task) setData(task);
-  }
-
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    if (!data.name) return;
-
-    if (task?.id) {
-      editTask(task.id, data as ITask);
+  const onSubmit = (data: TTaskFormValues) => {
+    if (isEditing && task?.id) {
+      editTask(task.id, { ...task, ...data });
     } else {
       addTask(data);
     }
-
-    setData({
-      name: '',
-      priority: 'low',
-      deadline: new Date(),
-    });
-
+    reset(DEFAULT_VALUES);
     onBack();
   };
-
-  const dateValue = data.deadline
-    ? new Date(data.deadline).toISOString().split('T')[0]
-    : '';
 
   return (
     <div className="flex h-full flex-col items-center gap-6">
@@ -65,12 +58,12 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           <span>Back</span>
         </button>
         <h1 className="text-center text-lg font-bold">
-          {task ? 'Edit Task' : 'New Task'}
+          {isEditing ? 'Edit Task' : 'New Task'}
         </h1>
       </header>
 
       <form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex w-full max-w-sm flex-col gap-4"
       >
         <div className="flex flex-col gap-1">
@@ -81,11 +74,14 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
             id="task-name"
             className="rounded border p-2"
             type="text"
-            required
-            value={data.name || ''}
             placeholder="e.g. Buy groceries"
-            onChange={e => setData({ ...data, name: e.target.value })}
+            {...register('name', { required: 'Task name is required' })}
           />
+          {errors.name && (
+            <p role="alert" className="text-xs text-red-500">
+              {errors.name.message}
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-1">
@@ -96,10 +92,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
             id="task-deadline"
             className="rounded border p-2"
             type="date"
-            value={dateValue}
-            onChange={e =>
-              setData({ ...data, deadline: new Date(e.target.value) })
-            }
+            {...register('deadline')}
           />
         </div>
 
@@ -107,13 +100,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           <label htmlFor="task-priority" className="text-sm font-medium">
             Priority
           </label>
-          <Select
-            id="task-priority"
-            value={data.priority}
-            onChange={e =>
-              setData({ ...data, priority: e.target.value as TPriority })
-            }
-          >
+          <Select id="task-priority" {...register('priority')}>
             <Option value="low">Low</Option>
             <Option value="medium">Medium</Option>
             <Option value="high">High</Option>
@@ -121,10 +108,10 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         </div>
 
         <button
-          className="bg-primary mt-4 rounded p-2 font-bold text-white"
           type="submit"
+          className="bg-primary mt-4 rounded p-2 font-bold text-white"
         >
-          {task ? 'Update Task' : 'Create Task'}
+          {isEditing ? 'Update Task' : 'Create Task'}
         </button>
       </form>
     </div>
