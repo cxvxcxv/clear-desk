@@ -72,9 +72,8 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           </label>
           <input
             id="task-name"
-            className="rounded border p-2"
-            type="text"
-            placeholder="e.g. Buy groceries"
+            className="border-border rounded border p-2"
+            placeholder="Buy groceries"
             {...register('name', { required: 'Task name is required' })}
           />
           {errors.name && (
@@ -90,7 +89,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           </label>
           <input
             id="task-deadline"
-            className="rounded border p-2"
+            className="border-border rounded border p-2"
             type="date"
             {...register('deadline')}
           />
@@ -100,7 +99,11 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           <label htmlFor="task-priority" className="text-sm font-medium">
             Priority
           </label>
-          <Select id="task-priority" {...register('priority')}>
+          <Select
+            id="task-priority"
+            className="border"
+            {...register('priority')}
+          >
             <Option value="low">Low</Option>
             <Option value="medium">Medium</Option>
             <Option value="high">High</Option>
