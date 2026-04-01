@@ -11,7 +11,7 @@ type TTaskViewProps = {
   task?: ITask;
 };
 
-const DEFAULT_VALUES: TTaskFormValues = {
+const DEFAULT_TASK_VALUES: TTaskFormValues = {
   name: '',
   priority: 'low',
   deadline: new Date().toISOString().split('T')[0],
@@ -31,7 +31,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
   } = useForm<TTaskFormValues>({
     values: task
       ? { name: task.name, priority: task.priority, deadline: task.deadline }
-      : DEFAULT_VALUES,
+      : DEFAULT_TASK_VALUES,
   });
 
   const onSubmit = (data: TTaskFormValues) => {
@@ -40,7 +40,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
     } else {
       addTask(data);
     }
-    reset(DEFAULT_VALUES);
+    reset(DEFAULT_TASK_VALUES);
     onBack();
   };
 
@@ -54,7 +54,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           onClick={onBack}
           aria-label="Go back to task list"
         >
-          <ChevronLeft size={16} aria-hidden="true" />
+          <ChevronLeft size={16} aria-hidden />
           <span>Back</span>
         </button>
         <h1 className="text-center text-lg font-bold">

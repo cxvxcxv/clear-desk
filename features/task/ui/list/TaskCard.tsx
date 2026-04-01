@@ -27,11 +27,12 @@ export const TaskCard = ({ task, ...rest }: TTaskCardProps) => {
       )}
       {...rest}
     >
-      <Checkbox
-        checked={!!task.isComplete}
-        onClick={e => e.stopPropagation()}
-        onChange={() => toggleTask(task.id)}
-      />
+      <span onClick={e => e.stopPropagation()}>
+        <Checkbox
+          checked={!!task.isComplete}
+          onChange={() => toggleTask(task.id)}
+        />
+      </span>
       <div className="flex-1">
         <p className={clsx('text-sm', task.isComplete && 'line-through')}>
           {task.name}
