@@ -43,13 +43,15 @@ export const TaskCard = ({ task, ...rest }: TTaskCardProps) => {
           </p>
         )}
       </div>
-      <span aria-label={ariaPriorityStatus}>
+      <span
+        aria-label={ariaPriorityStatus}
+        onClick={e => {
+          e.stopPropagation();
+          removeTask(task.id);
+        }}
+      >
         <Flag
           size="0.75rem"
-          onClick={e => {
-            e.stopPropagation();
-            removeTask(task.id);
-          }}
           className={clsx({
             'text-green': task.priority === 'low',
             'text-red': task.priority === 'high',

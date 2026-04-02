@@ -48,7 +48,6 @@ export const ListView = ({ openTaskView, onTaskSelect }: TListViewProps) => {
           onClick={() => {
             onTaskSelect(task);
             openTaskView();
-            console.log('task');
           }}
         />
       ))}
