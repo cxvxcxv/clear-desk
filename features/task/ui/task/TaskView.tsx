@@ -1,5 +1,6 @@
 import { ChevronLeft } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
 import { ITask, useTasks } from '@/entities/task';
 import { Option, Select } from '@/shared/ui';
@@ -27,12 +28,23 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<TTaskFormValues>({
-    values: task
-      ? { name: task.name, priority: task.priority, deadline: task.deadline }
-      : DEFAULT_TASK_VALUES,
+    defaultValues: DEFAULT_TASK_VALUES,
   });
+
+  useEffect(() => {
+    if (task) {
+      reset({
+        name: task.name,
+        priority: task.priority,
+        deadline: task.deadline,
+      });
+    } else {
+      reset(DEFAULT_TASK_VALUES);
+    }
+  }, [task, reset]);
 
   const onSubmit = (data: TTaskFormValues) => {
     if (isEditing && task?.id) {
@@ -40,6 +52,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
     } else {
       addTask(data);
     }
+
     reset(DEFAULT_TASK_VALUES);
     onBack();
   };
@@ -54,9 +67,10 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           onClick={onBack}
           aria-label="Go back to task list"
         >
-          <ChevronLeft size={16} aria-hidden />
+          <ChevronLeft size={16} />
           <span>Back</span>
         </button>
+
         <h1 className="text-center text-lg font-bold">
           {isEditing ? 'Edit Task' : 'New Task'}
         </h1>
@@ -66,6 +80,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex w-full max-w-sm flex-col gap-4"
       >
+        {/* task name */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-name" className="text-sm font-medium">
             Task Name
@@ -83,6 +98,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           )}
         </div>
 
+        {/* deadline */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-deadline" className="text-sm font-medium">
             Deadline
@@ -91,23 +107,45 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
             id="task-deadline"
             className="border-border rounded border p-2"
             type="date"
-            {...register('deadline')}
+            {...register('deadline', { required: 'Deadline is required' })}
           />
+          {errors.deadline && (
+            <p role="alert" className="text-xs text-red-500">
+              {errors.deadline.message}
+            </p>
+          )}
         </div>
 
+        {/* priority */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-priority" className="text-sm font-medium">
             Priority
           </label>
-          <Select
-            id="task-priority"
-            className="border"
-            {...register('priority')}
-          >
-            <Option value="low">Low</Option>
-            <Option value="medium">Medium</Option>
-            <Option value="high">High</Option>
-          </Select>
+
+          <Controller
+            name="priority"
+            control={control}
+            defaultValue="low"
+            rules={{ required: 'Priority is required' }}
+            render={({ field }) => (
+              <Select
+                id="task-priority"
+                className="border"
+                value={field.value}
+                onChange={field.onChange}
+              >
+                <Option value="low">Low</Option>
+                <Option value="medium">Medium</Option>
+                <Option value="high">High</Option>
+              </Select>
+            )}
+          />
+
+          {errors.priority && (
+            <p role="alert" className="text-xs text-red-500">
+              {errors.priority.message}
+            </p>
+          )}
         </div>
 
         <button

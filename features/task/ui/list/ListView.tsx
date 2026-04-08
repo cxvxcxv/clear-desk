@@ -9,7 +9,7 @@ type TListViewProps = {
   onTaskSelect: (task: ITask) => void;
 };
 
-export const ListView = ({ openTaskView, onTaskSelect }: TListViewProps) => {
+export const ListView = ({ openTaskView }: TListViewProps) => {
   const { tasks } = useTasks();
   const completedCount = tasks.filter(task => task.isComplete).length;
 
@@ -42,14 +42,7 @@ export const ListView = ({ openTaskView, onTaskSelect }: TListViewProps) => {
         />
       </div>
       {tasks.map(task => (
-        <TaskCard
-          key={task.id}
-          task={task}
-          onClick={() => {
-            onTaskSelect(task);
-            openTaskView();
-          }}
-        />
+        <TaskCard key={task.id} task={task} />
       ))}
     </div>
   );
