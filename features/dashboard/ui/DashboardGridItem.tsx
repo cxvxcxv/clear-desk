@@ -13,6 +13,7 @@ export const DashboardGridItem = ({
 }: TDashboardGridItemProps) => {
   return (
     <div
+      className="flex h-full min-h-0 flex-col overflow-hidden"
       style={{
         gridColumn: `span ${layout.colSpan}`,
         gridRow: `span ${layout.rowSpan}`,

@@ -57,7 +57,7 @@ export const WidgetCard = ({
           )}
         </div>
       </header>
-      <div className="flex-1 p-4">{children}</div>
+      <div className="flex flex-1 min-h-0 flex-col p-4">{children}</div>
     </section>
   );
 };

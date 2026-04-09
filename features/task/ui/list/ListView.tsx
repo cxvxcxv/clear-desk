@@ -1,23 +1,21 @@
 import { Plus } from 'lucide-react';
 
 import { TaskCard } from './TaskCard';
-import { ITask, useTasks } from '@/entities/task';
+import { useTasks } from '@/entities/task';
 import { Progress } from '@/shared/ui';
 
 type TListViewProps = {
   openTaskView: () => void;
-  onTaskSelect: (task: ITask) => void;
 };
 
 export const ListView = ({ openTaskView }: TListViewProps) => {
   const { tasks } = useTasks();
   const completedCount = tasks.filter(task => task.isComplete).length;
-
-  if (!tasks) return <div>loading...</div>;
+  const progressValue = tasks.length ? (completedCount / tasks.length) * 100 : 0;
 
   return (
-    <div className="flex flex-col gap-2">
-      <header className="flex justify-between">
+    <div className="flex h-full min-h-0 flex-col gap-2">
+      <header className="flex items-center justify-between">
         <h3>Tasks</h3>
         <button onClick={openTaskView}>
           <Plus strokeWidth={1.5} size={18} />
@@ -37,13 +35,15 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
         <Progress
           aria-labelledby="progress-label"
           aria-valuetext={`${completedCount} of ${tasks.length} tasks completed`}
-          value={(completedCount / tasks.length) * 100}
+          value={progressValue}
           max={100}
         />
       </div>
-      {tasks.map(task => (
-        <TaskCard key={task.id} task={task} />
-      ))}
+      <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
+        {tasks.map(task => (
+          <TaskCard key={task.id} task={task} />
+        ))}
+      </div>
     </div>
   );
 };
