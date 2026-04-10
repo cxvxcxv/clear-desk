@@ -43,6 +43,11 @@
 }
 
 @layer base {
+  html,
+  [class*='overflow-y-auto'],
+  [class*='overflow-auto'] {
+    @apply scrollbar-thin scrollbar-track-background scrollbar-thumb-border scroll-smooth;
+  }
   * {
     transition: background-color, border-color;
     transition-duration: 300ms;

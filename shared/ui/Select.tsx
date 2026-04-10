@@ -11,7 +11,7 @@ export const Select = ({
     <select
       id={id}
       className={clsx(
-        'border-border scrollbar-thin scrollbar-track-background scrollbar-thumb-border cursor-pointer appearance-none scroll-smooth rounded-sm p-2 px-4',
+        'border-border cursor-pointer appearance-none rounded-sm p-2 px-4',
         className,
       )}
       {...rest}
