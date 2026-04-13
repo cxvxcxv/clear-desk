@@ -11,7 +11,9 @@ type TListViewProps = {
 export const ListView = ({ openTaskView }: TListViewProps) => {
   const { tasks } = useTasks();
   const completedCount = tasks.filter(task => task.isComplete).length;
-  const progressValue = tasks.length ? (completedCount / tasks.length) * 100 : 0;
+  const progressValue = tasks.length
+    ? (completedCount / tasks.length) * 100
+    : 0;
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-2">
@@ -40,9 +42,11 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
         />
       </div>
       <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
-        {tasks.map(task => (
-          <TaskCard key={task.id} task={task} />
-        ))}
+        {tasks
+          .sort((a, b) => +a.isComplete - +b.isComplete)
+          .map(task => (
+            <TaskCard key={task.id} task={task} />
+          ))}
       </div>
     </div>
   );

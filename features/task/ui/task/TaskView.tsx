@@ -58,7 +58,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center gap-6">
+    <div className="flex h-full flex-col items-center gap-6 overflow-y-auto">
       <header className="grid w-full grid-cols-3 items-center">
         <button
           type="button"
