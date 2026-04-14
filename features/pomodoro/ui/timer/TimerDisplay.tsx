@@ -35,14 +35,6 @@ export const TimerDisplay = ({
       })}
       className="relative my-auto"
     >
-      <div aria-live="assertive" className="sr-only">
-        {remainingSeconds === 0
-          ? t('pomodoro.display.finished', {
-              phase: t(`pomodoro.durations.${phase}`),
-            })
-          : ''}
-      </div>
-
       <CircularProgress
         value={remainingSeconds / totalSeconds}
         size={180}
