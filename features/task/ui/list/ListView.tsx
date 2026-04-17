@@ -1,4 +1,4 @@
-import { Plus } from 'lucide-react';
+import { Plus, Trash2 } from 'lucide-react';
 
 import { TaskCard } from './TaskCard';
 import { useTasks } from '@/entities/task';
@@ -9,7 +9,7 @@ type TListViewProps = {
 };
 
 export const ListView = ({ openTaskView }: TListViewProps) => {
-  const { tasks } = useTasks();
+  const { tasks, clearCompleted } = useTasks();
   const completedCount = tasks.filter(task => task.isComplete).length;
   const progressValue = tasks.length
     ? (completedCount / tasks.length) * 100
@@ -47,6 +47,15 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
           .map(task => (
             <TaskCard key={task.id} task={task} />
           ))}
+        {completedCount ? (
+          <button
+            onClick={clearCompleted}
+            className="text-muted hover:text-red flex items-center gap-1 text-xs"
+          >
+            <Trash2 size={12} />
+            Clear Completed
+          </button>
+        ) : null}
       </div>
     </div>
   );
