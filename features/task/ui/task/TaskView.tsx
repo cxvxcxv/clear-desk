@@ -58,7 +58,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
   };
 
   return (
-    <div className="flex h-full flex-col items-center gap-6 overflow-y-auto">
+    <div className="flex h-full flex-col items-center gap-6">
       <header className="grid w-full grid-cols-3 items-center">
         <button
           type="button"
@@ -78,7 +78,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
 
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex w-full max-w-sm flex-col gap-4"
+        className="flex w-full max-w-sm flex-col gap-4 overflow-y-auto"
       >
         {/* task name */}
         <div className="flex flex-col gap-1">

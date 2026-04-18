@@ -53,7 +53,7 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
             className="text-muted hover:text-red flex items-center gap-1 text-xs"
           >
             <Trash2 size={12} />
-            Clear Completed
+            Clear completed
           </button>
         ) : null}
       </div>
