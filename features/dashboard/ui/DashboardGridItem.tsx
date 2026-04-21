@@ -1,25 +1,29 @@
-import { ReactNode } from 'react';
+import clsx from 'clsx';
+import { HTMLAttributes, ReactNode, forwardRef } from 'react';
 
 import { TWidgetLayout } from '@/entities/widget';
 
 type TDashboardGridItemProps = {
   layout: TWidgetLayout;
   children: ReactNode;
-};
+} & HTMLAttributes<HTMLDivElement>;
 
-export const DashboardGridItem = ({
-  layout,
-  children,
-}: TDashboardGridItemProps) => {
+export const DashboardGridItem = forwardRef<
+  HTMLDivElement,
+  TDashboardGridItemProps
+>(({ style, className, children, ...props }, ref) => {
   return (
     <div
-      className="flex h-full min-h-0 flex-col overflow-hidden"
-      style={{
-        gridColumn: `span ${layout.colSpan}`,
-        gridRow: `span ${layout.rowSpan}`,
-      }}
+      ref={ref}
+      style={style}
+      className={clsx(
+        'flex h-full min-h-0 flex-col overflow-hidden',
+        className,
+      )}
+      {...props}
     >
       {children}
     </div>
   );
-};
+});
+DashboardGridItem.displayName = 'DashboardGridItem';

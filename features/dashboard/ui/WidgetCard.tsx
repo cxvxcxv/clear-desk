@@ -61,7 +61,9 @@ export const WidgetCard = ({
           )}
         </div>
       </header>
-      <div className="flex min-h-0 flex-1 flex-col p-4">{children}</div>
+      <div className="bg-background flex min-h-0 flex-1 flex-col p-4">
+        {children}
+      </div>
     </section>
   );
 };
