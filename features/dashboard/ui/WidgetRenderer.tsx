@@ -1,6 +1,6 @@
 'use client';
 
-import { forwardRef } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 import { DashboardGridItem } from './DashboardGridItem';
 import { WidgetCard } from './WidgetCard';
@@ -14,10 +14,14 @@ type WidgetRendererProps = {
   onMouseDown?: React.MouseEventHandler;
   onMouseUp?: React.MouseEventHandler;
   onTouchEnd?: React.TouchEventHandler;
+  children?: ReactNode;
 };
 
 export const WidgetRenderer = forwardRef<HTMLDivElement, WidgetRendererProps>(
-  ({ widget, style, className, onMouseDown, onMouseUp, onTouchEnd }, ref) => {
+  (
+    { widget, style, className, children, onMouseDown, onMouseUp, onTouchEnd },
+    ref,
+  ) => {
     const ContentComponent = WIDGET_MAP[widget.type] ?? WidgetNotFound;
 
     return (
@@ -37,6 +41,7 @@ export const WidgetRenderer = forwardRef<HTMLDivElement, WidgetRendererProps>(
         >
           <ContentComponent />
         </WidgetCard>
+        {children}
       </DashboardGridItem>
     );
   },

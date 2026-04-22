@@ -37,7 +37,7 @@ export const DashboardGrid = ({ children }: TDashboardGridProps) => {
           cols={{ lg: 3, md: 3, sm: 2, xs: 1, xxs: 1 }}
           layouts={layouts}
           rowHeight={400}
-          // draggableHandle=".drag-handle"
+          dragConfig={{ enabled: true, handle: '.handle' }}
         >
           {children}
         </Responsive>

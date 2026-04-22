@@ -33,7 +33,7 @@ export const WidgetCard = ({
         className,
       )}
     >
-      <header className="bg-card border-border flex items-center justify-between border-b p-2 hover:cursor-move">
+      <header className="handle bg-card border-border flex items-center justify-between border-b p-2 hover:cursor-move">
         <span className="flex items-center gap-2">
           <GripVertical className="text-muted" />
           <h2 id={titleId} className="font-medium">

@@ -16,10 +16,7 @@ export const DashboardGridItem = forwardRef<
     <div
       ref={ref}
       style={style}
-      className={clsx(
-        'flex h-full min-h-0 flex-col overflow-hidden',
-        className,
-      )}
+      className={clsx('flex h-full min-h-0 flex-col', className)}
       {...props}
     >
       {children}
