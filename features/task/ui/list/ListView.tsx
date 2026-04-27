@@ -1,4 +1,5 @@
 import { Plus, Trash2 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 
 import { TaskCard } from './TaskCard';
 import { useTasks } from '@/entities/task';
@@ -14,11 +15,12 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
   const progressValue = tasks.length
     ? (completedCount / tasks.length) * 100
     : 0;
+  const t = useTranslations('task.listView');
 
   return (
     <div className="flex h-full min-h-0 flex-col gap-2">
       <header className="flex items-center justify-between">
-        <h3>Tasks</h3>
+        <h3>{t('tasks')}</h3>
         <button onClick={openTaskView}>
           <Plus strokeWidth={1.5} size={18} />
         </button>
@@ -26,11 +28,11 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
       <div>
         <div className="mb-1 flex justify-between text-sm">
           <p id="progress-label" className="text-muted">
-            Progress
+            {t('progress')}
           </p>
 
           <p id="task-status" aria-live="polite">
-            {completedCount}/{tasks.length} completed
+            {t('completed', { status: `${completedCount} / ${tasks.length}` })}
           </p>
         </div>
 
@@ -53,7 +55,7 @@ export const ListView = ({ openTaskView }: TListViewProps) => {
             className="text-muted hover:text-red flex items-center gap-1 text-xs"
           >
             <Trash2 size={12} />
-            Clear completed
+            {t('clearCompleted')}
           </button>
         ) : null}
       </div>

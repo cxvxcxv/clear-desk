@@ -23,7 +23,12 @@ export default async function RootLayout({
   const locale = await getLocale();
 
   return (
-    <html lang={locale} dir="ltr" suppressHydrationWarning>
+    <html
+      lang={locale}
+      dir="ltr"
+      data-scroll-behavior="smooth"
+      suppressHydrationWarning
+    >
       <body className={`${manrope.className} antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system">
           {children}

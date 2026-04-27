@@ -109,6 +109,13 @@
   },
 
   "task": {
+    "listView": {
+      "tasks": "Tasks",
+      "progress": "Progress",
+      "completed": "{status} completed",
+      "clearCompleted": "Clear completed"
+    },
+
     "name": "Name",
     "isComplete": "Is complete",
     "deadline": "Deadline",

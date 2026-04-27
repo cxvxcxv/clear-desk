@@ -109,6 +109,13 @@
   },
 
   "task": {
+    "listView": {
+      "tasks": "Tasks",
+      "progress": "Progress",
+      "completed": "{status} завершено",
+      "clearCompleted": "Очистить выполненные"
+    },
+
     "name": "Название",
     "isComplete": "Завершено",
     "deadline": "Крайний срок",
