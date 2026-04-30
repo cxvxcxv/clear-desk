@@ -116,7 +116,14 @@
       "clearCompleted": "Clear completed"
     },
 
-    "name": "Name",
+    "taskView": {
+      "back": "Back",
+      "newTask": "New task",
+      "required": "{property} is required",
+      "placeholder": "Buy groceries"
+    },
+
+    "taskName": "Task name",
     "isComplete": "Is complete",
     "deadline": "Deadline",
     "priority": "Priority",

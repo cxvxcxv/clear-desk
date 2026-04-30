@@ -116,7 +116,14 @@
       "clearCompleted": "Очистить выполненные"
     },
 
-    "name": "Название",
+    "taskView": {
+      "back": "Назад",
+      "newTask": "Новая задача",
+      "required": "Поле \"{property}\" обязательно для заполнения",
+      "placeholder": "Купить продукты"
+    },
+
+    "taskName": "Название",
     "isComplete": "Завершено",
     "deadline": "Крайний срок",
     "priority": "Приоритет",

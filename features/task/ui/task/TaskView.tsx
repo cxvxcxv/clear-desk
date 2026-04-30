@@ -1,5 +1,5 @@
 import { ChevronLeft } from 'lucide-react';
-import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 
 import { ITask, useTasks } from '@/entities/task';
@@ -9,7 +9,6 @@ type TTaskFormValues = Omit<ITask, 'id' | 'isComplete'>;
 
 type TTaskViewProps = {
   onBack: () => void;
-  task?: ITask;
 };
 
 const DEFAULT_TASK_VALUES: TTaskFormValues = {
@@ -18,11 +17,10 @@ const DEFAULT_TASK_VALUES: TTaskFormValues = {
   deadline: new Date().toISOString().split('T')[0],
 };
 
-export const TaskView = ({ task, onBack }: TTaskViewProps) => {
+export const TaskView = ({ onBack }: TTaskViewProps) => {
   const addTask = useTasks(state => state.addTask);
-  const editTask = useTasks(state => state.editTask);
-
-  const isEditing = Boolean(task?.id);
+  const tGeneral = useTranslations('general');
+  const t = useTranslations('task');
 
   const {
     register,
@@ -34,24 +32,8 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
     defaultValues: DEFAULT_TASK_VALUES,
   });
 
-  useEffect(() => {
-    if (task) {
-      reset({
-        name: task.name,
-        priority: task.priority,
-        deadline: task.deadline,
-      });
-    } else {
-      reset(DEFAULT_TASK_VALUES);
-    }
-  }, [task, reset]);
-
   const onSubmit = (data: TTaskFormValues) => {
-    if (isEditing && task?.id) {
-      editTask(task.id, { ...task, ...data });
-    } else {
-      addTask(data);
-    }
+    addTask(data);
 
     reset(DEFAULT_TASK_VALUES);
     onBack();
@@ -65,14 +47,13 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           autoFocus
           className="flex items-center gap-2 text-sm opacity-60 hover:opacity-100"
           onClick={onBack}
-          aria-label="Go back to task list"
         >
           <ChevronLeft size={16} />
-          <span>Back</span>
+          <span>{t('taskView.back')}</span>
         </button>
 
         <h1 className="text-center text-lg font-bold">
-          {isEditing ? 'Edit Task' : 'New Task'}
+          {t('taskView.newTask')}
         </h1>
       </header>
 
@@ -83,13 +64,15 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         {/* task name */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-name" className="text-sm font-medium">
-            Task Name
+            {t('taskName')}
           </label>
           <input
             id="task-name"
             className="border-border rounded border p-2"
-            placeholder="Buy groceries"
-            {...register('name', { required: 'Task name is required' })}
+            placeholder={t('taskView.placeholder')}
+            {...register('name', {
+              required: t('taskView.required', { property: t('taskName') }),
+            })}
           />
           {errors.name && (
             <p role="alert" className="text-xs text-red-500">
@@ -101,13 +84,15 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         {/* deadline */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-deadline" className="text-sm font-medium">
-            Deadline
+            {t('deadline')}
           </label>
           <input
             id="task-deadline"
             className="border-border rounded border p-2"
             type="date"
-            {...register('deadline', { required: 'Deadline is required' })}
+            {...register('deadline', {
+              required: t('taskView.required', { property: t('deadline') }),
+            })}
           />
           {errors.deadline && (
             <p role="alert" className="text-xs text-red-500">
@@ -119,14 +104,16 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
         {/* priority */}
         <div className="flex flex-col gap-1">
           <label htmlFor="task-priority" className="text-sm font-medium">
-            Priority
+            {t('priority')}
           </label>
 
           <Controller
             name="priority"
             control={control}
             defaultValue="low"
-            rules={{ required: 'Priority is required' }}
+            rules={{
+              required: t('taskView.required', { property: t('priority') }),
+            }}
             render={({ field }) => (
               <Select
                 id="task-priority"
@@ -134,9 +121,9 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
                 value={field.value}
                 onChange={field.onChange}
               >
-                <Option value="low">Low</Option>
-                <Option value="medium">Medium</Option>
-                <Option value="high">High</Option>
+                <Option value="low">{t('priorities.low')}</Option>
+                <Option value="medium">{t('priorities.medium')}</Option>
+                <Option value="high">{t('priorities.high')}</Option>
               </Select>
             )}
           />
@@ -152,7 +139,7 @@ export const TaskView = ({ task, onBack }: TTaskViewProps) => {
           type="submit"
           className="bg-primary mt-4 rounded p-2 font-bold text-white"
         >
-          {isEditing ? 'Update Task' : 'Create Task'}
+          {tGeneral('actions.save')}
         </button>
       </form>
     </div>
