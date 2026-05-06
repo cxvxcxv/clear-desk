@@ -4,11 +4,11 @@ import clsx from 'clsx';
 import { Calendar, Flag } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
-import { ITask, formatDate, useTasks } from '@/entities/task';
+import { Task, formatDate, useTasks } from '@/entities/task';
 import { Checkbox } from '@/shared/ui';
 
 type TTaskCardProps = {
-  task: ITask;
+  task: Task;
 };
 
 export const TaskCard = ({ task, ...rest }: TTaskCardProps) => {

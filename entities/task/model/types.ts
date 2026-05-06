@@ -1,9 +1,9 @@
-export type TPriority = 'low' | 'medium' | 'high';
+export type Priority = 'low' | 'medium' | 'high';
 
-export interface ITask {
+export interface Task {
   id: string;
   name: string;
   isComplete: boolean;
-  priority: TPriority;
+  priority: Priority;
   deadline?: string;
 }

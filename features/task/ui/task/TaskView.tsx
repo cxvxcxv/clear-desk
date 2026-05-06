@@ -2,10 +2,10 @@ import { ChevronLeft } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { Controller, useForm } from 'react-hook-form';
 
-import { ITask, useTasks } from '@/entities/task';
+import { Task, useTasks } from '@/entities/task';
 import { Option, Select } from '@/shared/ui';
 
-type TTaskFormValues = Omit<ITask, 'id' | 'isComplete'>;
+type TTaskFormValues = Omit<Task, 'id' | 'isComplete'>;
 
 type TTaskViewProps = {
   onBack: () => void;

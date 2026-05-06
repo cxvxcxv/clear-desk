@@ -1,12 +1,12 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-import { ITask } from './types';
+import { Task } from './types';
 
 interface ITaskStore {
-  tasks: ITask[];
-  addTask: (task: Omit<ITask, 'id' | 'isComplete'>) => void;
-  editTask: (id: string, task: Partial<ITask>) => void;
+  tasks: Task[];
+  addTask: (task: Omit<Task, 'id' | 'isComplete'>) => void;
+  editTask: (id: string, task: Partial<Task>) => void;
   removeTask: (id: string) => void;
   toggleTask: (id: string) => void;
   clearCompleted: () => void;
@@ -15,7 +15,7 @@ interface ITaskStore {
 export const useTasks = create<ITaskStore>()(
   persist(
     set => ({
-      tasks: [] as ITask[],
+      tasks: [] as Task[],
 
       addTask: task =>
         set(state => ({
