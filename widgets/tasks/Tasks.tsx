@@ -8,7 +8,7 @@ import { ListView, TaskView } from '@/features/task';
 import { PanelStack } from '@/shared/ui';
 
 export const Tasks = () => {
-  const { rootView, selectedTask, openCreateTaskView, openTaskListView } =
+  const { rootView, openCreateTaskView, openTaskListView } =
     useTasksWidgetView();
 
   return (
@@ -17,7 +17,7 @@ export const Tasks = () => {
       views={TASK_WIDGET_VIEWS}
       render={v => {
         if (v === 'list') return <ListView openTaskView={openCreateTaskView} />;
-        return <TaskView onBack={openTaskListView} task={selectedTask} />;
+        return <TaskView onBack={openTaskListView} />;
       }}
     />
   );
