@@ -8,15 +8,13 @@ import { PanelStack } from '@/shared/ui';
 export const Notes = () => {
   const { rootView, openListView, openNoteView } = useNotesWidgetView();
   return (
-    <div>
-      <PanelStack
-        view={rootView}
-        views={NOTES_WIDGET_VIEWS}
-        render={v => {
-          if (v === 'list') return <ListView openNoteView={openNoteView} />;
-          return <NoteView onBack={openListView} />;
-        }}
-      />
-    </div>
+    <PanelStack
+      view={rootView}
+      views={NOTES_WIDGET_VIEWS}
+      render={v => {
+        if (v === 'list') return <ListView openNoteView={openNoteView} />;
+        return <NoteView onBack={openListView} />;
+      }}
+    />
   );
 };
