@@ -2,7 +2,7 @@
 
 import { NOTES_WIDGET_VIEWS, useNotesWidgetView } from './model';
 import { ListView } from '@/features/note';
-import { NoteView } from '@/features/note/ui/task';
+import { NoteView } from '@/features/note/ui/note';
 import { PanelStack } from '@/shared/ui';
 
 export const Notes = () => {
