@@ -1,12 +1,24 @@
 import { ChevronLeft } from 'lucide-react';
-import { useState } from 'react';
+import { SubmitEventHandler, useState } from 'react';
+
+import { Note, useNotes } from '@/entities/note';
 
 interface NoteViewProps {
   onBack: () => void;
+  note?: Note;
 }
 
-export const NoteView = ({ onBack }: NoteViewProps) => {
-  const [content, setContent] = useState('');
+export const NoteView = ({ note, onBack }: NoteViewProps) => {
+  const { addNote, editNote } = useNotes();
+  const [content, setContent] = useState(note?.content || '');
+
+  const handleSubmit: SubmitEventHandler = e => {
+    e.preventDefault();
+    if (note) editNote(note.id, note);
+    else addNote({ content });
+    setContent('');
+  };
+
   return (
     <section>
       <header className="mb-4 grid w-full grid-cols-3 items-center">
@@ -22,7 +34,7 @@ export const NoteView = ({ onBack }: NoteViewProps) => {
 
         <h1 className="text-center text-lg font-bold">Note</h1>
       </header>
-      <form>
+      <form onSubmit={handleSubmit}>
         <textarea
           name="content"
           id="content"
